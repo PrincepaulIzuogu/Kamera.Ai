@@ -8,8 +8,6 @@ services:
       - "5001:5001"
     volumes:
       - ./kamera-ai-backend:/app
-    depends_on:
-      - frontend
 
   frontend:
     build:
@@ -18,5 +16,3 @@ services:
       - "3000:3000"
     volumes:
       - ./kamera-ai-frontend:/app
-    depends_on:
-      - backend
