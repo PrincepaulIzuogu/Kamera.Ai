@@ -1,0 +1,14 @@
+{
+    "name": "Kamera.Ai",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "frontend",
+    "workspaceFolder": "/app",
+    "extensions": [
+        "ms-azuretools.vscode-docker"
+    ],
+    "settings": {
+        "docker.host": "tcp://localhost:2375",
+        "docker.defaultNetwork": "bridge"
+    },
+    "postCreateCommand": "npm install"
+}
