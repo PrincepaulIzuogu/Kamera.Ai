@@ -6,6 +6,7 @@ from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.models import load_model
 import math
+import uvicorn
 
 # Initialize FastAPI
 app = FastAPI()
@@ -100,5 +101,4 @@ async def websocket_endpoint(websocket: WebSocket):
 
 # Command to run the backend server
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5001)
