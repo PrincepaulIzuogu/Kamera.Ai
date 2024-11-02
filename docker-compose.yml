@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.8'  # You can omit this if you're getting warnings about it being obsolete
 
 services:
   backend:
@@ -8,11 +8,7 @@ services:
       - "5001:5001"
     volumes:
       - ./kamera-ai-backend:/app
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5001"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    command: python src/fall_detection.py  # Explicitly state the command to run
 
   frontend:
     build:
@@ -21,8 +17,4 @@ services:
       - "3000:3000"
     volumes:
       - ./kamera-ai-frontend:/app
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    command: npm start  # Explicitly state the command to run
