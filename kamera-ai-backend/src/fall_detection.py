@@ -1,11 +1,23 @@
-import asyncio
-import websockets
 import numpy as np
 import cv2
 import base64
 import mediapipe as mp
+from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.models import load_model
 import math
+
+# Initialize FastAPI
+app = FastAPI()
+
+# Allow CORS for all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialize MediaPipe Pose
 mp_pose = mp.solutions.pose
@@ -50,7 +62,6 @@ def analyze_frame_logic(frame):
         angle = calculate_angle(shoulder_midpoint, hip_midpoint)
 
         # Classify based on angle
-        # Using stricter angle thresholds for fall detection
         if angle < 30 or angle > 150:  # Horizontal posture detected
             return 1  # Fall detected
         else:
@@ -61,10 +72,12 @@ def analyze_frame_logic(frame):
             return np.argmax(prediction)  # Return the class with the highest probability
     return None
 
-async def analyze_frame(websocket, path):
-    """Analyze frames received from the client."""
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
     try:
-        async for message in websocket:
+        while True:
+            message = await websocket.receive_text()
             print("Received message from client:", message)
 
             # Convert the base64 string back to an image
@@ -77,20 +90,15 @@ async def analyze_frame(websocket, path):
 
             if prediction is not None:
                 response = "Fall Detected!" if prediction == 1 else "No Fall"
-                await websocket.send(response)  # Send response back to client
+                await websocket.send_text(response)  # Send response back to client
                 print("Sent message to client:", response)
 
-    except websockets.exceptions.ConnectionClosed as e:
-        print("Connection closed:", e)
     except Exception as e:
         print("An error occurred:", e)
+    finally:
+        await websocket.close()
 
-# Start the WebSocket server
-port = 5001  # You can change this to any port you want
-start_server = websockets.serve(analyze_frame, 'localhost', port)
-
-print(f"Starting WebSocket server on port {port}...")
-print(f"WebSocket server URL: ws://localhost:{port}")  # Print the WebSocket URL
-
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+# Command to run the backend server
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=5001)
