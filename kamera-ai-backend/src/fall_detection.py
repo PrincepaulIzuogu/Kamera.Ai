@@ -73,6 +73,10 @@ def analyze_frame_logic(frame):
             return np.argmax(prediction)  # Return the class with the highest probability
     return None
 
+@app.get("/")
+async def read_root():
+    return {"message": "Backend is running!"}
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
