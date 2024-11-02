@@ -1,3 +1,5 @@
+# kamera-ai-backend/Dockerfile
+
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
@@ -16,5 +18,5 @@ COPY . .
 # Expose the port that the app runs on
 EXPOSE 5001
 
-# Command to run the backend server
-CMD ["python", "src/fall_detection.py"]
+# Command to run the backend server using Uvicorn
+CMD ["uvicorn", "src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
