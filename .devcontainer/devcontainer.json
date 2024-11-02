@@ -10,5 +10,6 @@
         "docker.host": "tcp://localhost:2375",
         "docker.defaultNetwork": "bridge"
     },
-    "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io docker-compose && docker-compose up --build"
+    "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io docker-compose",
+    "postStartCommand": "docker-compose up --build"
 }
