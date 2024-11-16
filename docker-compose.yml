@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./kamera-ai-backend
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./kamera-ai-backend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./kamera-ai-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./kamera-ai-frontend:/app
+    depends_on:
+      backend:
+        condition: service_healthy
