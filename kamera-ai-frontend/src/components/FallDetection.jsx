@@ -8,28 +8,34 @@ const FallDetection = () => {
     const socketRef = useRef(null);
 
     useEffect(() => {
-        // Set up WebSocket connection
-        socketRef.current = new WebSocket('ws://localhost:5001/ws');
+        const setupWebSocket = () => {
+            socketRef.current = new WebSocket('ws://localhost:5001/ws');
 
-        socketRef.current.onopen = () => {
-            console.log("WebSocket connected");
+            socketRef.current.onopen = () => {
+                console.log("WebSocket connected");
+            };
+
+            socketRef.current.onmessage = (event) => {
+                console.log("Message received:", event.data);
+                setMessage(event.data);
+            };
+
+            socketRef.current.onerror = (error) => {
+                console.error("WebSocket error:", error);
+            };
+
+            socketRef.current.onclose = () => {
+                console.log("WebSocket connection closed, reconnecting...");
+                setTimeout(setupWebSocket, 5000);
+            };
         };
 
-        socketRef.current.onmessage = (event) => {
-            console.log("Message received:", event.data);
-            setMessage(event.data); // Display the message received from the backend
-        };
-
-        socketRef.current.onerror = (error) => {
-            console.error("WebSocket error:", error);
-        };
-
-        socketRef.current.onclose = () => {
-            console.log("WebSocket connection closed");
-        };
+        setupWebSocket();
 
         return () => {
-            socketRef.current.close();
+            if (socketRef.current) {
+                socketRef.current.close();
+            }
         };
     }, []);
 
@@ -39,23 +45,19 @@ const FallDetection = () => {
         const ctx = canvasElement.getContext('2d');
 
         const pose = new Pose({
-            locateFile: (file) => {
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-            }
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
         });
 
         pose.setOptions({
             modelComplexity: 1,
             smoothLandmarks: true,
             minDetectionConfidence: 0.5,
-            minTrackingConfidence: 0.5
+            minTrackingConfidence: 0.5,
         });
 
-        // Access the webcam
         const getWebcamStream = async () => {
-            let stream;
             try {
-                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 videoElement.srcObject = stream;
 
                 await new Promise((resolve) => {
@@ -67,29 +69,42 @@ const FallDetection = () => {
             } catch (error) {
                 console.error("Error accessing webcam:", error);
             }
-
-            return stream; // Return the stream
         };
 
         const sendFrameToBackend = (canvas) => {
-            const frame = canvas.toDataURL('image/jpeg'); // Get the image as a JPEG data URL
-            const base64String = frame.split(',')[1]; // Extract Base64 string
-            socketRef.current.send(base64String); // Send Base64 string to the backend
+            try {
+                const frame = canvas.toDataURL('image/jpeg');
+                const base64String = frame.split(',')[1];
+                socketRef.current.send(base64String);
+            } catch (error) {
+                console.error("Error sending frame to backend:", error);
+            }
         };
 
+        let frameCounter = 0;
+
         const detectPose = async () => {
-            if (videoElement) {
-                await pose.send({ image: videoElement });
-                sendFrameToBackend(canvasElement); // Send the frame to the backend
+            try {
+                if (videoElement) {
+                    await pose.send({ image: videoElement });
+                    frameCounter++;
+                    if (frameCounter % 10 === 0) {
+                        sendFrameToBackend(canvasElement);
+                    }
+                }
+            } catch (error) {
+                console.error("Error in pose detection:", error);
             }
         };
 
         const processVideo = async () => {
             await detectPose();
-            requestAnimationFrame(processVideo);
+            setTimeout(() => {
+                requestAnimationFrame(processVideo);
+            }, 100); // Process frames every 100ms
         };
 
-        getWebcamStream().then((stream) => {
+        getWebcamStream().then(() => {
             videoElement.addEventListener('loadeddata', () => {
                 processVideo();
             });
@@ -110,8 +125,14 @@ const FallDetection = () => {
                 for (const connection of POSE_CONNECTIONS) {
                     const [from, to] = connection;
                     ctx.beginPath();
-                    ctx.moveTo(results.poseLandmarks[from].x * canvasElement.width, results.poseLandmarks[from].y * canvasElement.height);
-                    ctx.lineTo(results.poseLandmarks[to].x * canvasElement.width, results.poseLandmarks[to].y * canvasElement.height);
+                    ctx.moveTo(
+                        results.poseLandmarks[from].x * canvasElement.width,
+                        results.poseLandmarks[from].y * canvasElement.height
+                    );
+                    ctx.lineTo(
+                        results.poseLandmarks[to].x * canvasElement.width,
+                        results.poseLandmarks[to].y * canvasElement.height
+                    );
                     ctx.strokeStyle = 'blue';
                     ctx.lineWidth = 2;
                     ctx.stroke();
@@ -124,23 +145,21 @@ const FallDetection = () => {
                 const tracks = videoElement.srcObject.getTracks();
                 tracks.forEach((track) => track.stop());
             }
+            pose.close();
         };
     }, []);
 
     return (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
             <h1>Kamera.Ai Fall Detection</h1>
-            <video
-                ref={videoRef}
-                style={{ display: 'none' }} // Hide the video element
-            />
+            <video ref={videoRef} style={{ display: 'none' }} />
             <canvas
                 ref={canvasRef}
                 width={640}
                 height={480}
                 style={{ border: '1px solid black' }}
             />
-            <h2>{message}</h2> {/* Display fall detection messages */}
+            <h2>{message}</h2>
         </div>
     );
 };

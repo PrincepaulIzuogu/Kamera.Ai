@@ -1,3 +1,5 @@
+# fall_detection.py
+
 import numpy as np
 import cv2
 import base64
@@ -25,7 +27,7 @@ mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
 # Load the trained model
-model_path = "../kamera-ai-backend/models/fall_detection_model.h5"
+model_path = "/app/models/fall_detection_model.h5"
 model = load_model(model_path)
 
 def calculate_angle(shoulder, hip):
@@ -83,25 +85,26 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             message = await websocket.receive_text()
-            print("Received message from client:", message)
+            print("Received message from client.")
 
-            # Convert the base64 string back to an image
-            img_data = np.frombuffer(base64.b64decode(message), np.uint8)
-            frame = cv2.imdecode(img_data, cv2.IMREAD_COLOR)
+            try:
+                img_data = np.frombuffer(base64.b64decode(message), np.uint8)
+                frame = cv2.imdecode(img_data, cv2.IMREAD_COLOR)
 
-            # Analyze the frame
-            prediction = analyze_frame_logic(frame)  # Call the analysis logic
-            print("Prediction result:", prediction)
+                prediction = analyze_frame_logic(frame)
+                print("Prediction result:", prediction)
 
-            if prediction is not None:
-                response = "Fall Detected!" if prediction == 1 else "No Fall"
-                await websocket.send_text(response)  # Send response back to client
-                print("Sent message to client:", response)
+                if prediction is not None:
+                    response = "Fall Detected!" if prediction == 1 else "No Fall"
+                    await websocket.send_text(response)
+            except Exception as e:
+                print("Error processing frame:", e)
 
     except Exception as e:
-        print("An error occurred:", e)
+        print("WebSocket connection error:", e)
     finally:
         await websocket.close()
+
 
 # Command to run the backend server
 if __name__ == "__main__":
