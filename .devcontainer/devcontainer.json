@@ -10,9 +10,8 @@
   ],
   "forwardPorts": [3000, 5001],
   "mounts": [
-    "source=/path/to/project,target=/app,type=bind",
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
-  "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io docker-compose && docker-compose up --build",
+  "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io && curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose up --build",
   "remoteUser": "root"
 }
