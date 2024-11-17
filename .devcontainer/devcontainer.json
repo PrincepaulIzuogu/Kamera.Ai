@@ -1,21 +1,18 @@
 {
-  "name": "Kamera.AI Dev Container",
-  "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "frontend", // Specify the primary service
-  "workspaceFolder": "/app", // Update to match your container's path
+  "name": "Docker Compose Dev Container",
+  "image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.8",
   "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "editor.formatOnSave": true
+    "terminal.integrated.shell.linux": "/bin/bash"
   },
   "extensions": [
     "ms-python.python",
-    "ms-python.vscode-pylance",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "ms-vscode.vscode-typescript-next"
+    "ms-azuretools.vscode-docker"
   ],
-  "postCreateCommand": "npm install --prefix kamera-ai-frontend && pip install -r kamera-ai-backend/requirements.txt",
-  "remoteUser": "root",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind", // Ensure this matches the container's path
-  "forwardPorts": [3000, 5001]
+  "forwardPorts": [3000, 5001],
+  "mounts": [
+    "source=/path/to/project,target=/app,type=bind",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io docker-compose && docker-compose up --build",
+  "remoteUser": "root"
 }
