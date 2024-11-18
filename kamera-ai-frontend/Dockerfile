@@ -8,13 +8,13 @@ WORKDIR /app
 RUN npm cache clean --force
 
 # Copy package.json and package-lock.json
-COPY ./kamera-ai-frontend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install --verbose
 
 # Copy the rest of the frontend code into the container
-COPY ./kamera-ai-frontend .
+COPY . .
 
 # Expose the port the app runs on
 EXPOSE 3000
