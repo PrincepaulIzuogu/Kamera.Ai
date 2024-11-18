@@ -11,9 +11,6 @@ services:
       - PYTHONUNBUFFERED=1
     depends_on:
       - wait-for-it
-    volumes:
-      # Uncomment this after confirming the build works
-      # - ./kamera-ai-backend:/app
     restart: always
 
   frontend:
@@ -24,9 +21,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    volumes:
-      # Uncomment this after confirming the build works
-      # - ./kamera-ai-frontend:/app
     stdin_open: true
     tty: true
     restart: always
