@@ -9,7 +9,9 @@ const FallDetection = () => {
 
     useEffect(() => {
         const setupWebSocket = () => {
-            socketRef.current = new WebSocket('ws://backend:5001/ws');
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const socketUrl = `${protocol}//backend:5001/ws`;
+            socketRef.current = new WebSocket(socketUrl);
 
             socketRef.current.onopen = () => {
                 console.log("WebSocket connected");
