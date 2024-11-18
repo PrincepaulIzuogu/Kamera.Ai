@@ -12,7 +12,8 @@ services:
     depends_on:
       - wait-for-it
     volumes:
-      - ./kamera-ai-backend:/app
+      # Uncomment this after confirming the build works
+      # - ./kamera-ai-backend:/app
     restart: always
 
   frontend:
@@ -24,7 +25,8 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./kamera-ai-frontend:/app
+      # Uncomment this after confirming the build works
+      # - ./kamera-ai-frontend:/app
     stdin_open: true
     tty: true
     restart: always
