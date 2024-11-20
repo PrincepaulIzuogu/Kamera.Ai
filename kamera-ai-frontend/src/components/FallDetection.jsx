@@ -9,7 +9,7 @@ const FallDetection = () => {
 
     useEffect(() => {
         const setupWebSocket = () => {
-            socketRef.current = new WebSocket('ws://localhost:5001/ws');
+            socketRef.current = new WebSocket('ws://backend:5001/ws');
 
             socketRef.current.onopen = () => {
                 console.log("WebSocket connected");
