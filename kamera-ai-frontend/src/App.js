@@ -9,6 +9,11 @@ import Header from './components/Header'; // Import Header component
 import Footer from './components/Footer'; // Import Footer component
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // This includes both Bootstrap JS and Popper.js
+import ForgotPassword from './components/ForgotPassword';
+import Authorization from './components/Authorization';
+import SetNewPassword from './components/SetNewPassword';
+
+
 
 function App() {
     // Function to handle scrolling to the About Us section
@@ -28,6 +33,9 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/sign-in" element={<SignIn />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/authorization" element={<Authorization />} />
+                <Route path="/set-new-password" element={<SetNewPassword />} />
             </Routes>
             <Footer /> {/* Display the footer */}
         </Router>

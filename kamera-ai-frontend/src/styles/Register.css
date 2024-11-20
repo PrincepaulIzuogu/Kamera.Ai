@@ -1,111 +1,235 @@
 /* Register Form Styles */
 .register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Align items to the top */
-    height: 100vh; /* Ensure background covers the whole screen */
-    background: url('../images/image04.jpg') no-repeat center center;
-    background-size: cover;
-    margin-top: 30px;
-    background-position: center center;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Align items to the top */
+  height: 100vh; /* Ensure background covers the whole screen */
+  background: url('../images/image04.jpg') no-repeat center center;
+  background-size: cover;
+  margin-top: 30px;
+  background-position: center center;
+}
+
+.register-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 600px; /* Increased width for a more compact form */
+  max-height: 90%; /* Ensures the form doesn't exceed the available space */
+  overflow-y: auto; /* Allows scrolling if the form content exceeds available space */
+  text-align: center;
+  margin-top: 25px; /* Added margin to create space from the top */
+  margin-bottom: 10px;
+}
+
+.register-form h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: #4CAF50;
+}
+
+/* Grid layout for three columns of inputs */
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 inputs per row */
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.input-row .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 0.875rem;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.signin-link {
+  margin-top: 20px;
+}
+
+.signin-link a {
+  color: #4CAF50;
+}
+
+.signin-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
   .register-form {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 600px; /* Increased width for a more compact form */
-    max-height: 90%; /* Ensures the form doesn't exceed the available space */
-    overflow-y: auto; /* Allows scrolling if the form content exceeds available space */
-    text-align: center;
-    margin-top: 20px; /* Added margin to create space from the top */
-    margin-bottom: 10px;
+    width: 90%; /* Make the form take up most of the screen width on smaller screens */
   }
-  
-  .register-form h2 {
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  .form-control:focus {
-    border-color: #4CAF50;
-  }
-  
-  /* Grid layout for three columns of inputs */
+
   .input-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 inputs per row */
-    gap: 20px;
-    margin-bottom: 20px;
+    grid-template-columns: 1fr; /* Stack inputs vertically on small screens */
   }
-  
-  .input-row .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .eye-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.875rem;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .btn:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-  }
-  
-  .signin-link {
-    margin-top: 20px;
-  }
-  
-  .signin-link a {
-    color: #4CAF50;
-  }
-  
-  .signin-link a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Responsive design for smaller screens */
-  @media (max-width: 768px) {
-    .register-form {
-      width: 90%; /* Make the form take up most of the screen width on smaller screens */
-    }
-  
-    .input-row {
-      grid-template-columns: 1fr; /* Stack inputs vertically on small screens */
-    }
-  }
+}
+
+.validation-checks p {
+  color: grey;
+}
+
+.validation-checks p.valid {
+  color: green;
+}
+.validation-checks p {
+  color: grey;
+}
+
+.validation-checks p.valid {
+  color: green;
+}
+
+.btn {
+  background-color: lightgrey;
+}
+
+.btn-active {
+  background-color: green;
+}
+/* Password Validation */
+.password-validation {
+margin-top: 10px;
+text-align: left;
+}
+
+.password-validation ul {
+list-style: none;
+padding: 0;
+}
+
+.password-validation li {
+color: gray;
+font-size: 0.875rem;
+}
+
+.password-validation li.valid {
+color: green;
+font-weight: bold;
+}
+
+.btn-active {
+background-color: lightblue;
+}
+
+.error {
+color: red;
+font-size: 0.875rem;
+}
+/* Password Validation */
+.password-validation {
+margin-top: 10px;
+text-align: left;
+}
+
+.password-validation ul {
+list-style: none;
+padding: 0;
+}
+
+.password-validation li {
+color: gray;
+font-size: 0.875rem;
+}
+
+.password-validation li.valid {
+color: green;
+font-weight: bold;
+}
+
+.eye-icon {
+cursor: pointer;
+margin-left: -30px;
+position: absolute;
+top: 35px;
+right: 20px;
+font-size: 1.2rem;
+color: #555;
+}
+
+
+.btn-active {
+background-color: lightblue;
+}
+
+.error {
+color: red;
+font-size: 0.875rem;
+}
+
+.signup-container {
+width: 300px;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+text-align: center;
+}
+
+.input-group {
+margin-bottom: 10px;
+}
+
+.password-requirements {
+text-align: left;
+margin-bottom: 20px;
+}
+
+button {
+width: 100%;
+padding: 10px;
+border: none;
+border-radius: 5px;
+margin-bottom: 10px;
+color: white;
+font-size: 16px;
+}
+
+button:disabled {
+cursor: not-allowed;
+}

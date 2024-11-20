@@ -9,7 +9,9 @@ services:
       - "5001:5001"
     environment:
       - PYTHONUNBUFFERED=1
+      - DATABASE_URL=postgresql://postgres:THD111@postgres:5432/kamera-db  # Point to the PostgreSQL container
     depends_on:
+      - postgres
       - wait-for-it
     volumes:
       - ./kamera-ai-backend:/app
@@ -29,6 +31,20 @@ services:
     tty: true
     restart: always
 
+  postgres:
+    image: postgres:13  # Use the official PostgreSQL image
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: THD111
+      POSTGRES_DB: kamera-db  # Database name
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist the database data
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port
+
   wait-for-it:
     image: alpine:3.14
-    command: /bin/sh -c "apk add --no-cache bash curl && while ! curl -s backend:5001; do sleep 1; done; echo 'Backend is ready!'"
+    command: /bin/sh -c "apk add --no-cache bash curl && while ! curl -s postgres:5432; do sleep 1; done; echo 'PostgreSQL is ready!'"
+
+volumes:
+  postgres_data:  # Named volume for persistence

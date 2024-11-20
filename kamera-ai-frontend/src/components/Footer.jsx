@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="footer">
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/contact">Contact Us</Link>
+        <a href="mailto:Kamera.Ai@gmail.com">Contact Us</a>
         <Link to="/privacy-policy">Privacy Policy</Link>
         <Link to="/terms-of-service">Terms of Service</Link>
       </nav>
