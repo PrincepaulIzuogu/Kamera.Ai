@@ -25,7 +25,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Fetch the database URL from environment variables
-DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:THD111@localhost:5432/kamera-db')  # Default PostgreSQL port is 5432
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:THD111@0.0.0.0:5432/kamera-db')  # Default PostgreSQL port is 5432
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
