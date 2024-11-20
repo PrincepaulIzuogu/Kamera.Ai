@@ -13,8 +13,6 @@ services:
     depends_on:
       - postgres
       - wait-for-it
-    volumes:
-      - ./kamera-ai-backend:/app
     restart: always
 
   frontend:
@@ -25,8 +23,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    volumes:
-      - ./kamera-ai-frontend:/app
     stdin_open: true
     tty: true
     restart: always
