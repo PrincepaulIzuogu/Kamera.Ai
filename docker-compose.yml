@@ -28,7 +28,7 @@ services:
     restart: always
 
   postgres:
-    image: postgres:13  
+    image: postgres:13.4
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: THD111
