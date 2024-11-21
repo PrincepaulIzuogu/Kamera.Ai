@@ -1,6 +1,33 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:13  # Use the official PostgreSQL image
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: THD111
+      POSTGRES_DB: kamera-db  # Database name
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist the database data
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port so it is accessible outside the container
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: princepaul.izuogu@stud.th-deg.de 
+      PGADMIN_DEFAULT_PASSWORD: THD111
+    ports:
+      - "8080:80"  # Expose pgAdmin on port 8080
+    depends_on:
+      - postgres
+    restart: always
+
+  wait-for-it:
+    image: alpine:3.14
+    command: /bin/sh -c "apk add --no-cache bash curl && while ! curl -s postgres:5432; do sleep 1; done; echo 'PostgreSQL is ready!'"
+
   backend:
     build:
       context: ./kamera-ai-backend
@@ -26,32 +53,6 @@ services:
     stdin_open: true
     tty: true
     restart: always
-
-  postgres:
-    image: postgres:13  # Use the official PostgreSQL image
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: THD111
-      POSTGRES_DB: kamera-db  # Database name
-    volumes:
-      - postgres_data:/var/lib/postgresql/data  # Persist the database data
-    ports:
-      - "5432:5432"  # Expose PostgreSQL port so it is accessible outside the container
-
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: princepaul.izuogu@stud.th-deg.de 
-      PGADMIN_DEFAULT_PASSWORD: THD111
-    ports:
-      - "8080:80"  # Expose pgAdmin on port 8080
-    depends_on:
-      - postgres
-    restart: always
-
-  wait-for-it:
-    image: alpine:3.14
-    command: /bin/sh -c "apk add --no-cache bash curl && while ! curl -s postgres:5432; do sleep 1; done; echo 'PostgreSQL is ready!'"
 
 volumes:
   postgres_data:  # Named volume for persistence
