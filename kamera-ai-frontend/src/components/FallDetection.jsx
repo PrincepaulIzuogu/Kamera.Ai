@@ -45,8 +45,9 @@ const FallDetection = () => {
         const ctx = canvasElement.getContext('2d');
 
         const pose = new Pose({
-            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
+            locateFile: (file) => `/assets/${file}`,
         });
+
 
         pose.setOptions({
             modelComplexity: 1,
