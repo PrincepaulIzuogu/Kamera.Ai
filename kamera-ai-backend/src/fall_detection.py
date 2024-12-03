@@ -25,7 +25,6 @@ from pydantic import BaseModel, EmailStr, Field
 import numpy as np
 import tensorflow as tf
 import cv2
-import base64
 import mediapipe as mp
 from mediapipe import solutions as mp_solutions
 import logging
