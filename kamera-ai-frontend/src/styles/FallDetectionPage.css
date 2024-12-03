@@ -1,0 +1,150 @@
+/* FallDetectionPage.css */
+
+/* Fall Detection Page Styling */
+.fall-detection-page {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items to the center */
+    height: 100vh; /* Full viewport height */
+    background-color: rgb(246, 244, 240); /* Background color */
+    margin-top: 30px;
+    font-family: 'Playfair Display', serif; /* Font for the page */
+    opacity: 0; /* Initially hidden for animation */
+    animation: fadeIn 1s forwards; /* Fade-in animation */
+  }
+  
+  /* Form container with box shadow and padding */
+  .form-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 600px; /* Fixed width */
+    max-height: 90%; /* Ensure the form doesn't exceed available space */
+    overflow-y: auto; /* Scroll if content exceeds space */
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+  
+  /* Title */
+  .fall-detection-page h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333; /* Dark text color */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+  }
+  
+  /* Input group styling */
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Label styling */
+  .input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Input box styling */
+  .input-group input {
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.3); /* Blue shadow */
+  }
+  
+  /* Input focus styling */
+  .input-group input:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 8px rgba(0, 0, 255, 0.6); /* Blue shadow on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  /* Button Styling */
+  .next-button {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, width 0.3s ease;
+  }
+  
+  /* Button Hover effect */
+  .next-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+    width: 95%; /* Reduce width on hover */
+  }
+  
+  /* Responsive form with grid layout for inputs */
+  .input-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 inputs per row */
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Form-group inside grid layout */
+  .input-row .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    /* Two columns on smaller screens */
+    .input-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* One column on mobile screens */
+    .input-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .continue-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    width: 100%; /* Optional, if you want it to be the same width as the other button */
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .continue-button:hover {
+    background-color: #0056b3;
+  }
+  

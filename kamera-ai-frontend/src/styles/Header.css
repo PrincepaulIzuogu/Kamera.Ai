@@ -1,0 +1,141 @@
+/* Basic Navbar Styling */
+.navbar {
+    background-color: #27292b; /* Blue background for the navbar */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
+    font-family: 'Roboto', sans-serif; /* Apply custom font globally */
+}
+
+/* Logo Styling */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white; /* Logo text color */
+    max-height: 50px;
+}
+
+/* Styling the logo */
+.navbar-brand .logo {
+    width: 80px; /* Increased logo size */
+    height: 80px;
+    margin-right: 10px;
+}
+
+/* Change color of 'Kamera.Ai' to white */
+.navbar-brand .brand-text {
+    color: white;
+}
+
+/* Navbar links styling */
+.navbar-nav .nav-link {
+    color: white !important; /* White text for links */
+    font-family: 'Lora', serif; /* Stylish font for navbar links */
+    font-size: 1.1rem; /* Slightly larger text */
+    margin: 0 15px; /* Spacing between links */
+    text-transform: uppercase; /* Capitalize link text */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition effect */
+    font-weight: 400; /* Regular font weight for links */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffd700; /* Gold color on hover */
+    text-decoration: none; /* Remove underline */
+    transform: translateY(-3px); /* Slight animation for hover effect */
+}
+
+/* Active link styling */
+.navbar-nav .nav-link.active {
+    color: #ffd700; /* Gold color for active link */
+    font-weight: 700; /* Bold active link */
+}
+
+/* Toggler Button for Mobile View */
+.navbar-toggler-icon {
+    background-color: #ffd700; /* Custom icon color for the hamburger menu */
+}
+
+/* Navbar responsiveness */
+@media (max-width: 576px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1rem; /* Smaller text on small screens */
+        margin: 10px 0; /* Add vertical spacing for mobile */
+    }
+
+    .navbar-toggler {
+        border-color: #ffd700; /* Custom border color for the hamburger menu */
+    }
+}
+
+/* Dropdown Menu Styling */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block; /* Display the dropdown on hover */
+}
+
+.dropdown-menu {
+    display: none; /* Hide dropdown by default */
+    background-color: #27292b;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.375rem;
+}
+
+.dropdown-item {
+    color: white;
+    padding: 10px 20px;
+    text-transform: none; /* Disable capitalization */
+    font-family: 'Lora', serif;
+}
+
+.dropdown-item:hover {
+    color: #ffd700; /* Gold color on hover */
+    text-decoration: none;
+    background-color: #2e3133;
+}
+
+/* Additional Hover Effects: */
+.navbar-nav .nav-link:hover {
+    color: #ffd700; /* Color of text changes to gold */
+    font-weight: 700; /* Bold the text when hovered */
+}
+
+/* Smooth transition of links on hover */
+.navbar-nav .nav-link {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar-nav .nav-link:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #ffd700;
+    left: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.navbar-nav .nav-link:hover:before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Adding space and padding for better spacing on large screens */
+.navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar-nav .nav-item {
+    padding: 0 20px;
+}
+
+.navbar-nav .nav-link {
+    padding: 5px 10px;
+}

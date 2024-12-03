@@ -1,7 +1,0 @@
-mediapipe
-opencv-python
-tensorflow
-numpy
-scikit-learn
-websocket_server
-websockets

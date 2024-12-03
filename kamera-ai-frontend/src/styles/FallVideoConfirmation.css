@@ -1,0 +1,138 @@
+.fallvideo-confirmation-page-container {
+    display: flex;
+    justify-content: center; /* Center the main container horizontally */
+    align-items: center; /* Center the main container vertically */
+    height: 100vh; /* Full viewport height */
+    background-color: #3d3a3a;
+    padding: 20px;
+}
+
+.fallconfirmation-box {
+    width: 500px; /* Adjust width for compactness */
+    max-width: 90%;
+    height: 580px; /* Increase height to make the container longer */
+    max-height: 95vh; /* Allow it to expand up to 95% of viewport height */
+    padding: 15px; /* Adjust padding */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 10px; /* Add spacing between child elements */
+    margin-top: 80px;
+    margin-bottom: 15px;
+    
+}
+
+.fallvideo-confirmation-heading {
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.fallvideo-alert {
+    background-color: #f44336;
+    color: white;
+    font-weight: bold;
+    font-size: 12px; /* Adjust font size */
+    padding: 6px; /* Adjust padding */
+    border-radius: 5px;
+    animation: bounce 1s infinite;
+    width: 100%;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.fallvideo-container {
+    width: 100%; /* Ensure the video takes full width */
+    max-height: 300px; /* Increase the video container height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fallconfirmation-video {
+    width: 100%; /* Maintain full width */
+    max-height: 300px; /* Increase video height */
+    object-fit: contain; /* Ensure the video scales correctly */
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.falltrim-controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ensure controls span the full width */
+}
+
+.falltrim-button {
+    padding: 6px 12px; /* Adjust padding */
+    font-size: 12px; /* Adjust font size */
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1; /* Make buttons flexible */
+    margin: 0 5px; /* Add spacing between buttons */
+}
+
+.falltrim-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.falltrim-button:hover:enabled {
+    background-color: #0056b3;
+}
+
+.falltrim-info {
+    display: flex; /* Use flexbox to align items horizontally */
+    justify-content: space-between; /* Space out the labels evenly */
+    font-size: 12px; /* Adjust font size */
+    margin-top: 10px;
+    color: #555;
+    width: 100%; /* Ensure it spans the full width */
+    padding: 0 10px; /* Add padding for spacing */
+}
+
+.fallbutton-container {
+    margin-top: 10px; /* Adjust margin */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.fallconfirm-button {
+    padding: 6px 12px; /* Adjust padding */
+    font-size: 14px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make the button take full width */
+    margin-bottom: 10px;
+    margin-top: -15px;
+}
+
+.fallconfirm-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.fallconfirm-button:hover:enabled {
+    background-color: #0056b3;
+}
