@@ -5,7 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 
-const SignIn = () => {
+const SignIn = ({ onSignIn }) => {
   const navigate = useNavigate();
 
   // State for inputs and validation
@@ -72,6 +72,7 @@ const SignIn = () => {
       });
 
       if (response.data.message) {
+        onSignIn(); // Update isAuthenticated state in App
         // Navigate to dashboard on successful login
         navigate('/dashboard');
       }
