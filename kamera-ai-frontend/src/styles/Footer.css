@@ -1,0 +1,52 @@
+
+
+/* Footer Styling */
+.footer {
+    background-color: #27292b; /* Dark background for the footer */
+    color: white; /* White text */
+    padding: 30px 15%; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+}
+
+.footer nav {
+    display: flex;
+    justify-content: center; /* Center-align the links */
+    gap: 30px; /* Space out the links */
+    margin-bottom: 20px; /* Space between links and copyright */
+}
+
+.footer nav a {
+    color: white; /* White color for links */
+    text-decoration: none; /* Remove underline */
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase; /* Uppercase links */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.footer nav a:hover {
+    color: #ffd700; /* Gold color on hover */
+    text-decoration: none; /* Remove underline on hover */
+}
+
+.footer p {
+    font-size: 0.9rem; /* Slightly smaller text for copyright */
+    color: #bbb; /* Lighter color for copyright text */
+    margin-top: 20px; /* Space between links and copyright */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 10%; /* Reduce padding on smaller screens */
+    }
+
+    .footer nav {
+        flex-direction: column; /* Stack links vertically on mobile */
+        align-items: center;
+    }
+
+    .footer nav a {
+        margin-bottom: 10px; /* Add margin between vertically stacked links */
+    }
+}

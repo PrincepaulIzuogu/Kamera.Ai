@@ -1,0 +1,62 @@
+/* About Kamera.Ai section styling */
+.about-kamera-ai-section {
+    color: black; /* Black font color */
+    font-family: 'Playfair Display', serif;
+    padding: 50px 15%; /* Padding on left and right to prevent text from reaching the margins */
+    background-color: rgb(249, 243, 243); /* Ensures the background is not white */
+    
+}
+
+.about-kamera-ai-section h2,
+.about-kamera-ai-section h3 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    
+}
+
+.about-kamera-ai-section p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Margin-top for the 'Our Vision' section */
+.p {
+    margin-top: 30px; /* Adding space before the vision content */
+}
+.about-kamera-ai-section h3 {
+    margin-top: 30px;
+}
+
+/* Styling for images in the section */
+.about-kamera-ai-images {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.about-kamera-ai-images img {
+    width: 45%; /* Slightly smaller than before */
+    max-height: 350px; /* Adjusted max height */
+    object-fit: contain; /* Ensures the image scales without distortion */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .about-kamera-ai-images {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-kamera-ai-images img {
+        width: 90%; /* Images take up most of the screen width on smaller screens */
+        margin-bottom: 20px;
+    }
+
+    .about-kamera-ai-section {
+        padding: 50px 5%; /* Reduce padding for smaller screens */
+    }
+}

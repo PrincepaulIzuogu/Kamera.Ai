@@ -1,0 +1,177 @@
+/* RoomManagement.css */
+.room-management-page {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    animation: fadeIn 0.5s ease-in-out;
+    margin-top: 60px;
+    min-height: 100vh; /* Ensure the container takes at least the full height of the viewport */
+}
+
+.app-content {
+  flex: 1; /* Pushes the footer to the bottom if content is less */
+}
+
+  .room-management-page .title {
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .room-management-page .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  .room-management-page .metric-card {
+    flex: 1;
+    border: 1px solid #ccc;
+    animation: slideIn 0.4s ease-in-out;
+    margin-right: 20px;
+    display: inline-block;
+    background-color: #27292b;
+    border-radius: 10px;
+    padding: 10px ;
+    box-shadow: 0 4px 6px rgba(63, 62, 62, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .room-management-page .metric-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .room-management-page .metric-card p {
+    margin: 10px 0;
+    color: rgb(244, 239, 229);
+  
+  }
+  
+  .room-management-page .btn-register {
+    padding: 10px ;
+    background-color: green;
+    width: 50%;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .room-management-page .btn-register:hover {
+    background-color: darkgreen;
+  }
+  
+  .room-management-page .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    margin-top: 50px;
+  }
+  
+  .room-management-page .search-bar input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .room-management-page .btn-search {
+    padding: 10px ;
+    width: 30%;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .room-management-page .btn-search:hover {
+    background-color: darkblue;
+  }
+  
+  .room-management-page .dropdowns {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  
+  .room-management-page .dropdown {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    animation: slideIn 0.4s ease-in-out;
+  }
+  
+  .room-management-page .room-table {
+    width: 100%;
+    border-collapse: collapse;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .room-management-page .room-table th,
+  .room-management-page .room-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .room-management-page .room-table th {
+    background-color: #f1f1f1;
+  }
+  
+  .room-management-page .no-data {
+    text-align: center;
+    color: gray;
+    font-style: italic;
+  }
+  
+  .room-management-page .btn-more {
+    padding: 5px 10px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease;
+  }
+  
+  .room-management-page .btn-more:not([disabled]) {
+    background-color: orange;
+    cursor: pointer;
+  }
+  
+  .room-management-page .btn-more:not([disabled]):hover {
+    background-color: darkorange;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  

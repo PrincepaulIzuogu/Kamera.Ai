@@ -1,0 +1,138 @@
+/* Container for centering the page */
+.video-recording-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #3d3a3a;
+}
+
+/* Animated container */
+.video-recording-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Heading */
+.video-recording-page-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Alert box */
+.video-recording-alert {
+    animation: bounce 1s infinite;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Button Container */
+.video-recording-button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Styling for each button */
+.video-recording-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Start recording button */
+.video-recording-btn-start {
+    background-color: #28a745;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.3);
+}
+
+/* Stop recording button */
+.video-recording-btn-save {
+    background-color: #ffc107;
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+}
+
+/* Finish recording button */
+.video-recording-btn-proceed {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+}
+
+/* Button Hover Effects */
+.video-recording-btn:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Button Active (clicked) Effect */
+.video-recording-btn:active {
+    transform: scale(0.98); /* Shrinks slightly when clicked */
+}
+
+/* Button Disabled State */
+.video-recording-btn:disabled {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Camera Container */
+.video-recording-camera-container {
+    margin-top: 20px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Video element styling */
+.video-recording-video {
+    width: 80%;  /* Limit the width of the video */
+    max-width: 800px;  /* Optional: Set a max width to avoid excessive scaling */
+    height: 450px;  /* Reduce the height of the video */
+    border-radius: 10px;  /* Optional: Rounded corners */
+    border: 2px solid #ccc;  /* Light border around the video */
+    object-fit: contain;  /* Ensure the video maintains aspect ratio */
+}
+
+/* Canvas styling */
+.video-recording-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;  /* Match the canvas size with the video element */
+    height: auto;
+    object-fit: contain;  /* Ensure the canvas maintains aspect ratio */
+}
