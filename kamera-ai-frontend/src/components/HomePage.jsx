@@ -7,6 +7,12 @@ import '../styles/HomePage.css'; // Import the existing CSS for the homepage
 const HomePage = () => {
   const [showForm, setShowForm] = useState(false); // Whether the form is visible
   const [isAssistantVisible, setIsAssistantVisible] = useState(true); // Whether the assistant form is visible
+  const [formData, setFormData] = useState({
+    name: '',
+    clinic: '',
+    time: '',
+    email: '',
+  });
 
   useEffect(() => {
     // Automatically show the assistant form when the page loads and trigger slide-up animation
@@ -27,6 +33,35 @@ const HomePage = () => {
     setIsAssistantVisible(true); // Show the assistant
     setShowForm(false); // Slide down the form
   };
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5001/schedule-appointment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert('Appointment scheduled successfully.');
+        setFormData({ name: '', clinic: '', time: '', email: '' }); // Reset form
+      } else {
+        alert('Failed to schedule the appointment. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error scheduling appointment:', error);
+      alert('An error occurred while scheduling the appointment.');
+    }
+  };
+
 
   return (
     <div className="homepage">
