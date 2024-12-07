@@ -135,11 +135,11 @@ const HomePage = () => {
 </section>
 
 
-    {/* Ai Assist (Yes/No Form) */}
-    {isAssistantVisible && (
+   {/* Ai Assist (Yes/No Form) */}
+      {isAssistantVisible && (
         <div className="ai-assist">
           <h3>Ai Assist</h3>
-          <p>Book an Call Appointment?</p>
+          <p>Book a Call Appointment?</p>
           <div className="buttons">
             <button className="yes-button" onClick={handleYesClick}>Yes</button>
             <button className="no-button" onClick={handleNoClick}>No</button>
@@ -148,53 +148,52 @@ const HomePage = () => {
       )}
 
       {/* Appointment Form */}
-{showForm && !isAssistantVisible && (
-  <div className="appointment-form">
-    <h3>Schedule Appointment</h3>
-    <form onSubmit={handleFormSubmit}> {/* Attach the correct handler here */}
-      <label>Name:</label>
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleInputChange}
-        placeholder="Your Name"
-        required
-      />
-      <label>Clinic:</label>
-      <input
-        type="text"
-        name="clinic"
-        value={formData.clinic}
-        onChange={handleInputChange}
-        placeholder="Clinic Name"
-        required
-      />
-      <label>Time:</label>
-      <input
-        type="time"
-        name="time"
-        value={formData.time}
-        onChange={handleInputChange}
-        required
-      />
-      <label>Email:</label>
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleInputChange}
-        placeholder="Your Email"
-        required
-      />
-      <button type="submit">Schedule</button> {/* Button submits the form */}
-    </form>
-    <button className="exit-button" onClick={handleExitClick}>Exit</button> {/* Exit without submission */}
-  </div>
-)}
+      {showForm && !isAssistantVisible && (
+        <div className="appointment-form">
+          <h3>Schedule Appointment</h3>
+          <form onSubmit={handleFormSubmit}>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder="Your Name"
+              required
+            />
+            <label>Clinic:</label>
+            <input
+              type="text"
+              name="clinic"
+              value={formData.clinic}
+              onChange={handleInputChange}
+              placeholder="Clinic Name"
+              required
+            />
+            <label>Time:</label>
+            <input
+              type="time"
+              name="time"
+              value={formData.time}
+              onChange={handleInputChange}
+              required
+            />
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Your Email"
+              required
+            />
+            <button type="submit">Schedule</button>
+          </form>
+          <button className="exit-button" onClick={handleExitClick}>Exit</button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default HomePage;
-
