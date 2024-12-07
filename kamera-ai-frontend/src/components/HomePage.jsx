@@ -148,23 +148,50 @@ const HomePage = () => {
       )}
 
       {/* Appointment Form */}
-      {showForm && !isAssistantVisible && (
-        <div className="appointment-form">
-          <h3>Schedule Appointment</h3>
-          <form>
-            <label>Name:</label>
-            <input type="text" placeholder="Your Name" />
-            <label>Clinic:</label>
-            <input type="text" placeholder="Clinic Name" />
-            <label>Time:</label>
-            <input type="time" />
-            <label>Email:</label>
-            <input type="email" placeholder="Your Email" />
-            <button type="submit">Schedule</button>
-          </form>
-          <button className="exit-button" onClick={handleExitClick}>Exit</button>
-        </div>
-      )}
+{showForm && !isAssistantVisible && (
+  <div className="appointment-form">
+    <h3>Schedule Appointment</h3>
+    <form onSubmit={handleFormSubmit}> {/* Attach the correct handler here */}
+      <label>Name:</label>
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleInputChange}
+        placeholder="Your Name"
+        required
+      />
+      <label>Clinic:</label>
+      <input
+        type="text"
+        name="clinic"
+        value={formData.clinic}
+        onChange={handleInputChange}
+        placeholder="Clinic Name"
+        required
+      />
+      <label>Time:</label>
+      <input
+        type="time"
+        name="time"
+        value={formData.time}
+        onChange={handleInputChange}
+        required
+      />
+      <label>Email:</label>
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleInputChange}
+        placeholder="Your Email"
+        required
+      />
+      <button type="submit">Schedule</button> {/* Button submits the form */}
+    </form>
+    <button className="exit-button" onClick={handleExitClick}>Exit</button> {/* Exit without submission */}
+  </div>
+)}
     </div>
   );
 };
