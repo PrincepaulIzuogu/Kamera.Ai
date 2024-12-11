@@ -34,7 +34,7 @@ To run Kamera.Ai on your local machine, follow these steps:
 
 - Python 3.8+
 - Docker (for containerized environments)
-- Node.js (for frontend development)
+- Node.js & React (for frontend development)
 - PostgreSQL (for database)
 
 ### Backend Setup
