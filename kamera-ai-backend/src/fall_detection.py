@@ -6,7 +6,7 @@ import bcrypt
 import smtplib
 import random
 import string
-from typing import Optional
+from typing import Optional, List
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timedelta
@@ -162,8 +162,11 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-User.clinic = relationship("Clinic", back_populates="users")
-User.clinic_id = Column(Integer, ForeignKey("clinics.id"), nullable=True)
+# Relationship to rooms
+    rooms = relationship("Room", back_populates="user")
+    dashboard_data = relationship("DashboardData", back_populates="user", uselist=False)
+
+
 
 class Token(Base):
     __tablename__ = "tokens"
@@ -218,18 +221,29 @@ class Video(Base):
     fall_detection_test = relationship("FallDetectionTest", back_populates="videos")
 
 
-class Clinic(Base):
-    __tablename__ = "clinics"
+class Room(Base):
+    __tablename__ = "rooms"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    location = Column(String, nullable=True)
-    subscription_status = Column(String, default="Active")
-    created_at = Column(DateTime, default=datetime.utcnow)
+    number = Column(String, index=True)
+    floor = Column(String)
+    building = Column(String)
+    status = Column(String)
+    date_registered = Column(DateTime, default=datetime.utcnow)
+    last_action = Column(String)
 
-    # Relationships
-    users = relationship("User", back_populates="clinic")
-    dashboard_data = relationship("DashboardData", back_populates="clinic", uselist=False)
+    # CCTV specific fields
+    cctv_ip = Column(String, index=True)
+    cctv_port = Column(Integer)
+    cctv_username = Column(String)
+    cctv_password = Column(String)
+    stream_url = Column(String)
+
+    # Foreign key to link room to user
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    # Relationship to the User
+    user = relationship("User", back_populates="rooms")
 
 
 class DashboardData(Base):
@@ -240,9 +254,11 @@ class DashboardData(Base):
     total_rooms = Column(Integer, default=0)
     user_guide_access = Column(Boolean, default=True)
 
-    clinic_id = Column(Integer, ForeignKey("clinics.id"))
-    clinic = relationship("Clinic", back_populates="dashboard_data")
+    # Foreign key to link dashboard data to user
+    user_id = Column(Integer, ForeignKey("users.id"))
 
+    # Relationship to User
+    user = relationship("User", back_populates="dashboard_data")
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -472,16 +488,29 @@ class AppointmentRequest(BaseModel):
     email: EmailStr
 
 
+
+class RoomRequest(BaseModel):
+    number: str
+    floor: str
+    building: str
+    status: str
+    cctv_ip: str
+    cctv_port: int
+    cctv_username: str
+    cctv_password: str
+    stream_url: str
+
+    class Config:
+        orm_mode = True
+
+# Pydantic model for Dashboard
 class DashboardResponse(BaseModel):
     total_falls: int
     total_rooms: int
     user_guide_access: str
 
-class ClinicResponse(BaseModel):
-    clinic_name: str
-    location: str
-    subscription_status: str
-
+    class Config:
+        orm_mode = True
 
 
 
@@ -1237,3 +1266,19 @@ async def get_dashboard_data(db: Session = Depends(get_db), user: User = Depends
     }
 
     return dashboard_data
+
+
+## Endpoint to fetch rooms
+@app.get("/api/rooms")
+async def get_rooms(db: Session = Depends(get_db)):
+    logger.info("Received request for /api/rooms")
+    try:
+        rooms = db.query(Room).all()
+        logger.info(f"Fetched {len(rooms)} rooms from the database")
+        if not rooms:
+            logger.warning("No rooms found in the database.")
+            return []  # Return an empty list instead of raising an error
+        return rooms
+    except Exception as e:
+        logger.error(f"Error fetching rooms: {e}")
+        raise HTTPException(status_code=500, detail="Error fetching rooms")
