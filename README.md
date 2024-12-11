@@ -18,6 +18,8 @@ The goal of **Kamera.Ai** is to provide enhanced patient safety by automating fa
 
 Kamera.Ai uses a personalized pre-trained model to analyze video footage in real-time. The system relies on MediaPipe for pose estimation and uses an LSTM (Long Short-Term Memory) neural network model to detect potential falls based on the patients' body postures and movements. When a fall is detected, the application triggers an alert mechanism to notify the staff.
 
+![Screenshot 2024-12-11 183013](https://github.com/user-attachments/assets/c5c7e824-6786-4c9b-a4ec-49fc3e5fc362)
+
 ### Steps:
 1. **Video Streaming**: Cameras in smart clinic rooms stream the video to the application.
 2. **Fall Detection**: The system processes each frame, looking for signs of a fall.
