@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import FallDetectionPage from "./components/FallDetectionPage";
 import VideoRecordingPage from "./components/VideoRecordingPage";
@@ -55,6 +56,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/fall-detection-page" element={<FallDetectionPage />} />
               
+              
               <Route path="/video-recording/:id" element={<VideoRecordingPage />} />
               <Route path="/video-confirmation/:id" element={<VideoConfirmationPage />} />
               <Route path="/video-recording/fall/:id" element={<FallVideoRecordingPage />} />
@@ -86,7 +88,12 @@ function App() {
               <Route path="/authorization" element={<Authorization />} />
               <Route path="/set-new-password" element={<SetNewPassword />} />
               
+              
               <Route path="/header2" element={<Header2 />} />
+              <Route
+                path="/falls-details"
+                element={isAuthenticated ? <FallsDetails /> : <Navigate to="/sign-in" />}
+              />
               <Route
                 path="/falls-details"
                 element={isAuthenticated ? <FallsDetails /> : <Navigate to="/sign-in" />}
@@ -101,3 +108,4 @@ function App() {
 }
 
 export default App;
+

@@ -7,6 +7,7 @@ import smtplib
 import random
 import string
 from typing import Optional, List
+from typing import Optional, List
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timedelta
@@ -230,6 +231,8 @@ class Video(Base):
     fall_detection_test = relationship("FallDetectionTest", back_populates="videos")
 
 
+class Room(Base):
+    __tablename__ = "rooms"
 class Room(Base):
     __tablename__ = "rooms"
 
@@ -512,6 +515,22 @@ class AppointmentRequest(BaseModel):
     email: EmailStr
 
 
+
+class RoomRequest(BaseModel):
+    number: str
+    floor: str
+    building: str
+    status: str
+    cctv_ip: str
+    cctv_port: int
+    cctv_username: str
+    cctv_password: str
+    stream_url: str
+
+    class Config:
+        orm_mode = True
+
+# Pydantic model for Dashboard
 
 class RoomRequest(BaseModel):
     number: str
