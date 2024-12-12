@@ -1,8 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/RoomManagement.css";
 
 const RoomManagement = () => {
-  const rooms = []; // Replace with fetched room data.
+  const [rooms, setRooms] = useState([]); // State to hold rooms data
+  const [searchQuery, setSearchQuery] = useState(""); // Search query
+  const [newRoom, setNewRoom] = useState({
+    number: "",
+    floor: "",
+    building: "",
+    status: "",
+    cctv_ip: "",
+    cctv_port: "",
+    cctv_username: "",
+    cctv_password: "",
+    stream_url: "",
+  });
+
+  // Fetch rooms from the backend
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/rooms");
+        const data = await response.json();
+        setRooms(data);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      }
+    };
+
+    fetchRooms();
+  }, []);
+
+  // Handle room creation
+  const handleRoomSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/rooms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newRoom),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setRooms([...rooms, result.room]); // Update rooms with the new room
+        setNewRoom({
+          number: "",
+          floor: "",
+          building: "",
+          status: "",
+          cctv_ip: "",
+          cctv_port: "",
+          cctv_username: "",
+          cctv_password: "",
+          stream_url: "",
+        });
+      } else {
+        console.error("Error creating room:", result.message);
+      }
+    } catch (error) {
+      console.error("Error submitting room:", error);
+    }
+  };
 
   return (
     <div className="room-management-page">
@@ -11,11 +70,18 @@ const RoomManagement = () => {
       <div className="controls">
         <div className="metric-card">
           <p>No. of Registered Rooms: {rooms.length}</p>
-          <button className="btn-register">Register New Room</button>
+          <button className="btn-register" onClick={handleRoomSubmit}>
+            Register New Room
+          </button>
         </div>
 
         <div className="search-bar">
-          <input type="text" placeholder="Search Room" />
+          <input
+            type="text"
+            placeholder="Search Room"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button className="btn-search">Search</button>
         </div>
       </div>
@@ -52,7 +118,7 @@ const RoomManagement = () => {
             rooms.map((room, index) => (
               <tr key={index}>
                 <td>{room.number}</td>
-                <td>{room.cctvDetails}</td>
+                <td>{room.cctv_ip}</td>
                 <td>{room.floor}</td>
                 <td>{room.status}</td>
                 <td>{room.dateRegistered}</td>

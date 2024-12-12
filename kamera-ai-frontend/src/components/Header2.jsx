@@ -52,9 +52,11 @@ const Header2 = ({ handleLogout }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <button className="btn btn-outline-success me-2 subscription-btn">
-                Subscription
-              </button>
+              <Link to="/subscription">
+                <button className="btn btn-outline-success me-2 subscription-btn">
+                  Subscription
+                </button>
+              </Link>
             </li>
             <li className="nav-item">
               <button
