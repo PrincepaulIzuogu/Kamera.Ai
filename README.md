@@ -2,8 +2,7 @@
 
 **Kamera.Ai** is an advanced application powered by a personalized pre-trained model designed to continuously monitor patients in smart clinic rooms. The system uses computer vision techniques to detect falls in real-time and instantly sends alerts, enabling rapid response and preventing further complications.
 
-![Screenshot 2024-12-11 183039](https://github.com/user-attachments/assets/9064a73c-9e15-4f73-81ba-cd49068ec345)
-
+https://github.com/user-attachments/assets/0a3d1093-f05d-4171-8954-8f5275ce5041
 
 The goal of **Kamera.Ai** is to provide enhanced patient safety by automating fall detection in healthcare environments, such as hospitals, clinics, and care homes. The application ensures that patients' well-being is constantly monitored, even when healthcare professionals are not around, helping to reduce fall-related injuries.
 
