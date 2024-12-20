@@ -1,0 +1,151 @@
+
+
+/* Center the parent container and make it flexible */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Container for form */
+.register-new-room {
+  max-width: 900px;
+  width: 100%;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 100px; /* Adds space to prevent hiding under header */
+  margin-bottom: 50px; /* Ensures there is a margin below the form */
+  overflow: hidden; /* Prevents overflow if the content is too large */
+  align-self: center; /* Ensures the form is centered horizontally */
+  margin-left: auto; /* Horizontally centers the form */
+  margin-right: auto; /* Horizontally centers the form */
+}
+
+/* Hover effect on container */
+.register-new-room:hover {
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading style */
+.register-new-room h2 {
+  text-align: center;
+  color: #333;
+  font-size: 36px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+/* Form styling */
+.register-new-room form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns for input fields */
+  gap: 20px;
+  row-gap: 30px;
+  width: 100%;
+}
+
+/* Label styling */
+.register-new-room label {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* Input field styles */
+.register-new-room input {
+  padding: 12px;
+  font-size: 14px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+/* Focused input state */
+.register-new-room input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+/* Button style */
+.register-new-room button {
+  background-color: #ccc;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  grid-column: span 2; /* Make button span both columns */
+}
+
+/* Button hover and color change when valid */
+.register-new-room button:hover {
+  background-color: #45a049;
+}
+
+/* Disabled button */
+.register-new-room button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Button active state when enabled */
+.register-new-room button.enabled {
+  background-color: #4CAF50;
+}
+
+/* Optional: Style for error message or success message */
+.register-new-room .message {
+  text-align: center;
+  font-size: 14px;
+  color: #e74c3c;
+  margin-top: 15px;
+}
+
+/* Optional: Success message styling */
+.register-new-room .success {
+  color: #2ecc71;
+}
+
+/* Responsive styles for mobile and tablet */
+@media (max-width: 768px) {
+  .register-new-room {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .register-new-room h2 {
+    font-size: 28px;
+  }
+
+  .register-new-room label {
+    font-size: 14px;
+  }
+
+  .register-new-room input {
+    font-size: 16px;
+  }
+
+  .register-new-room button {
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+
+  .register-new-room form {
+    grid-template-columns: 1fr; /* Stack inputs in one column for smaller screens */
+  }
+}

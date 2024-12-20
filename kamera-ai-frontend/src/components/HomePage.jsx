@@ -13,6 +13,7 @@ const HomePage = () => {
     time: '',
     email: '',
   });
+  const [isScheduling, setIsScheduling] = useState(false); // Track whether the scheduling is in progress
 
   useEffect(() => {
     // Automatically show the assistant form when the page loads and trigger slide-up animation
@@ -34,15 +35,17 @@ const HomePage = () => {
     setShowForm(false); // Slide down the form
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    // Start scheduling process
+    setIsScheduling(true);
+
     try {
       const response = await fetch('http://localhost:5001/schedule-appointment', {
         method: 'POST',
@@ -59,9 +62,11 @@ const HomePage = () => {
     } catch (error) {
       console.error('Error scheduling appointment:', error);
       alert('An error occurred while scheduling the appointment.');
+    } finally {
+      // Reset scheduling state after attempt
+      setIsScheduling(false);
     }
   };
-
 
   return (
     <div className="homepage">
@@ -78,7 +83,6 @@ const HomePage = () => {
 
       {/* About Kamera.Ai Section */}
       <section id="about-kamera-ai" className="about-kamera-ai-section">
-      <h2>  </h2>
         <h2>About Kamera.Ai</h2>
         <p>At Kamera.Ai, we are dedicated to enhancing healthcare technology with cutting-edge AI-driven solutions. Our primary mission is to detect early falls and trigger early responses, as sick patients are particularly prone to falls. We aim to protect their well-being while maintaining the highest standards of data privacy.</p>
 
@@ -88,8 +92,8 @@ const HomePage = () => {
         <p>When a fall is detected, an alert is sent immediately to the responsible department in the clinic, notifying them through one of three possible channels: email, phone, or directly within the app itself. This ensures a fast and efficient response, protecting patients from further harm.</p>
 
         <div className="about-kamera-ai-images">
-            <img src={require('../images/image08.jpg')} alt="App Workflow 1" />
-            <img src={require('../images/image07.jpg')} alt="App Workflow 2" />
+          <img src={require('../images/image08.jpg')} alt="App Workflow 1" />
+          <img src={require('../images/image07.jpg')} alt="App Workflow 2" />
         </div>
         <p>The images above show how our app works: a fall detection system that operates in real-time, ensuring patient safety at all times.</p>
 
@@ -97,46 +101,39 @@ const HomePage = () => {
         <p>As we continue to evolve, our vision is to expand the system's capabilities to not only detect falls but also to identify factors that contribute to falls. This includes detecting hazardous situations like spilled water, misplaced sharp objects, and more. By proactively identifying these risks, we can help reduce falls and further improve patient safety across healthcare facilities.</p>
 
         <div className="about-kamera-ai-images">
-            <img src={require('../images/image06.avif')} alt="Data Privacy 1" />
-            <img src={require('../images/image05.webp')} alt="Data Privacy 2" />
+          <img src={require('../images/image06.avif')} alt="Data Privacy 1" />
+          <img src={require('../images/image05.webp')} alt="Data Privacy 2" />
         </div>
         <p>As shown in the images above, we prioritize data privacy. Our AI model processes videos in real time and compares them with our model, but no patient data is ever stored. This ensures that the privacy and security of patients' personal information is never compromised.</p>
 
         <p>Our goal is to help clinics provide safer environments for their patients while ensuring the highest standards of confidentiality and data protection. We are committed to using AI responsibly and ethically to improve healthcare outcomes.</p>
       </section>
-      <section id="teams" className="teams-section">
-    <h2>Our Teams</h2>
-    <p>Meet the people who drive innovation at Kamera.Ai.</p>
 
-    <div className="teams-images">
-        <div className="team-member">
-            <img src={require('../images/image09.jpeg')} alt="Siddharth Chanana - Business Lead" />
-            <h3>Siddharth Chanana</h3>
-            <p>Business Lead</p>
-        </div>
-        <div className="team-member">
-            <img src={require('../images/image10.jpeg')} alt="Hugh Ayara - Product Manager" />
-            <h3>Hugh Ayara</h3>
-            <p>Product Manager</p>
-        </div>
-        <div className="team-member">
+      {/* Teams Section */}
+      <section id="teams" className="teams-section">
+        <h2>Our Teams</h2>
+        <p>Meet the people who drive innovation at Kamera.Ai.</p>
+
+        <div className="teams-images">
+          <div className="team-member">
             <img src={require('../images/image11.jpeg')} alt="Noura Eltahawi - Frontend Developer" />
             <h3>Noura Eltahawi</h3>
-            <p>Frontend Developer</p>
-        </div>
-        <div className="team-member">
+            <p>Frontend Developer & Business Lead</p>
+            
+          </div>
+          <div className="team-member">
             <img src={require('../images/image12.jpg')} alt="Princepaul Izuogu - Backend Developer" />
             <h3>Princepaul Izuogu</h3>
-            <p>Backend Developer</p>
+            <p>Backend Developer & Product Manager</p>
+            
+          </div>
         </div>
-    </div>
 
-    <p>Our team is composed of passionate professionals committed to making healthcare safer through innovative AI-driven solutions.</p>
-</section>
+        <p>Our team is composed of passionate professionals committed to making healthcare safer through innovative AI-driven solutions.</p>
+      </section>
 
-
-    {/* Ai Assist (Yes/No Form) */}
-    {isAssistantVisible && (
+      {/* Ai Assist (Yes/No Form) */}
+      {isAssistantVisible && (
         <div className="ai-assist">
           <h3>Ai Assist</h3>
           <p>Book a Call Appointment?</p>
@@ -187,7 +184,9 @@ const HomePage = () => {
               placeholder="Your Email"
               required
             />
-            <button type="submit">Schedule</button>
+            <button type="submit">
+              {isScheduling ? "Scheduling..." : "Schedule"} {/* Dynamic text */}
+            </button>
           </form>
           <button className="exit-button" onClick={handleExitClick}>Exit</button>
         </div>

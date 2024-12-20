@@ -1,84 +1,147 @@
-import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2"; // Assuming you're using chart.js
-import { Chart as ChartJS } from "chart.js/auto"; // For chart.js
-import "../styles/FallsDetails.css"; // Import your styles
+import React, { useState, useEffect } from "react";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import "../styles/FallsDetails.css"; // Import CSS for styling
 
 const FallsDetails = () => {
-  const [fallsData, setFallsData] = useState([]);
-  const [viewMode, setViewMode] = useState("table"); // Default to table view
+  const [fallData, setFallData] = useState([]); // State to hold fall data
+  const [view, setView] = useState("chart"); // State to toggle between chart and table
+  const [searchQuery, setSearchQuery] = useState(""); // State to manage search query
+  const [filteredData, setFilteredData] = useState([]); // State to store filtered data
 
-  // Fetch fall data when the component mounts
   useEffect(() => {
-    const fetchFallsData = async () => {
+        window.scrollTo(0, 0);
+      }, []);
+
+  // Fetch fall data from the API
+  useEffect(() => {
+    const fetchFallData = async () => {
       try {
-        const response = await fetch("/api/falls"); // Replace with your actual API endpoint
+        const response = await fetch("http://localhost:5001/api/falls-over-time");
         const data = await response.json();
-        setFallsData(data); // Set fetched data into state
+        if (data.time && data.falls) {
+          setFallData([data]); // Assuming you get an array of data with "time" and "falls"
+        } else {
+          console.error("No data available.");
+        }
       } catch (error) {
         console.error("Error fetching fall data:", error);
       }
     };
 
-    fetchFallsData();
+    fetchFallData();
   }, []);
 
-  // Chart.js data configuration for the line graph
-  const chartData = {
-    labels: fallsData.map(fall => new Date(fall.timestamp).toLocaleString()), // Assuming 'timestamp' field
-    datasets: [
-      {
-        label: "Falls Over Time",
-        data: fallsData.map(fall => fall.count), // Assuming 'count' field represents the number of falls
-        borderColor: "rgba(75,192,192,1)",
-        fill: false,
-      },
-    ],
+  // Filter fall data based on the search query
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = fallData.filter((item) =>
+        item.time.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.falls.toString().includes(searchQuery)
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(fallData);
+    }
+  }, [searchQuery, fallData]);
+
+  const handleSwitchView = (viewType) => {
+    setView(viewType);
   };
 
-  // Handle change of the view mode (table or chart)
-  const handleViewChange = (event) => {
-    setViewMode(event.target.value);
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   return (
     <div className="falls-details">
-      <h2>Falls Details</h2>
+      <h2>Falls Data</h2>
 
-      {/* Dropdown for choosing view mode */}
-      <div className="view-mode-dropdown">
-        <label htmlFor="viewMode">Choose View Mode: </label>
-        <select id="viewMode" value={viewMode} onChange={handleViewChange}>
-          <option value="table">Table View</option>
-          <option value="chart">Chart View</option>
-        </select>
+      {/* View Switcher */}
+      <div className="view-switcher">
+        <button
+          className={`view-btn ${view === "chart" ? "active" : ""}`}
+          onClick={() => handleSwitchView("chart")}
+        >
+          View as Chart
+        </button>
+        <button
+          className={`view-btn ${view === "table" ? "active" : ""}`}
+          onClick={() => handleSwitchView("table")}
+        >
+          View as Table
+        </button>
       </div>
 
-      {/* Display the selected view mode */}
-      {viewMode === "table" ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Room</th>
-              <th>Date & Time</th>
-              <th>Fall Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fallsData.map((fall, index) => (
-              <tr key={index}>
-                <td>{fall.room}</td>
-                <td>{new Date(fall.timestamp).toLocaleString()}</td>
-                <td>{fall.count}</td>
+      {/* Search Bar */}
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search Falls Data"
+          value={searchQuery}
+          onChange={handleSearch}
+        />
+      </div>
+
+      {/* Chart View */}
+      {view === "chart" && (
+        <div className="chart-container">
+          <h3>Falls Over Time</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+              data={fallData.length > 0 ? fallData : [{ time: "No Data", falls: 0 }]}
+              margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="time" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="falls" stroke="#8884d8" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Table View */}
+      {view === "table" && (
+        <div className="table-container">
+          <h3>Falls Over Time - Table</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Falls</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <Line data={chartData} />
+            </thead>
+            <tbody>
+              {filteredData.length > 0 ? (
+                filteredData.map((data, index) => (
+                  <tr key={index}>
+                    <td>{data.time}</td>
+                    <td>{data.falls}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">No data found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
 };
 
 export default FallsDetails;
-

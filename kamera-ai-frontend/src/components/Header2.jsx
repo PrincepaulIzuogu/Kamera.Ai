@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 import logo from "../images/Logo.png";
 
 const Header2 = ({ handleLogout }) => {
   const navigate = useNavigate();
+  const [isSubscribed, setIsSubscribed] = useState(false); // Replace this with the actual subscription check logic
 
   const onLogout = () => {
     handleLogout(); // Call the logout handler passed as a prop
     navigate("/"); // Redirect to homepage
+  };
+
+  const handleUploadClick = () => {
+    if (!isSubscribed) {
+      alert("Only subscribed users can upload localized data.");
+    } else {
+      // Proceed with the upload functionality (you can implement this part later)
+      console.log("Uploading localized data...");
+    }
   };
 
   return (
@@ -52,10 +62,23 @@ const Header2 = ({ handleLogout }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <button className="btn btn-outline-success me-2 subscription-btn">
-                Subscription
+              <Link to="/subscription">
+                <button className="btn btn-outline-success me-2 subscription-btn">
+                  Subscription
+                </button>
+              </Link>
+            </li>
+
+            {/* Upload Localized Data Button */}
+            <li className="nav-item">
+              <button
+                className="btn btn-outline-primary upload-btn"
+                onClick={handleUploadClick}
+              >
+                Upload Localized Data
               </button>
             </li>
+
             <li className="nav-item">
               <button
                 className="btn btn-danger logout-btn"

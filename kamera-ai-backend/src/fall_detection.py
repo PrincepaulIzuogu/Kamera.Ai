@@ -6,7 +6,7 @@ import bcrypt
 import smtplib
 import random
 import string
-from typing import Optional
+from typing import Optional, List
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timedelta
@@ -27,6 +27,7 @@ import numpy as np
 import tensorflow as tf
 import cv2
 import base64
+import stripe
 import mediapipe as mp
 from mediapipe import solutions as mp_solutions
 import logging
@@ -46,6 +47,12 @@ logger = logging.getLogger(__name__)
 DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:THD111@localhost:5432/kamera-db')  # Default PostgreSQL port is 5432
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+# Set your Stripe API secret key
+stripe.api_key = "sk_test_51PTo6n2MU8gPiBkp1zInYRfltX26e6CQ6JQZo0H2tJ47LWh2R7Dmw0phfFX9fBWU9VC3TBhgQbTZcezZVL2tcNYj001sdf3uar"
+
+
 
 # Initialize FastAPI
 app = FastAPI()
@@ -162,8 +169,13 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-User.clinic = relationship("Clinic", back_populates="users")
-User.clinic_id = Column(Integer, ForeignKey("clinics.id"), nullable=True)
+# Relationship to rooms
+    rooms = relationship("Room", back_populates="user")
+    dashboard_data = relationship("DashboardData", back_populates="user", uselist=False)
+    # Define the relationship to the Subscription model
+    subscription = relationship('Subscription', back_populates='user', uselist=False)
+
+
 
 class Token(Base):
     __tablename__ = "tokens"
@@ -218,18 +230,30 @@ class Video(Base):
     fall_detection_test = relationship("FallDetectionTest", back_populates="videos")
 
 
-class Clinic(Base):
-    __tablename__ = "clinics"
+class Room(Base):
+    __tablename__ = "rooms"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    location = Column(String, nullable=True)
-    subscription_status = Column(String, default="Active")
-    created_at = Column(DateTime, default=datetime.utcnow)
+    number = Column(String, index=True)
+    floor = Column(String)
+    total_bed = Column(Integer, index=True)
+    building = Column(String)
+    status = Column(String)
+    date_registered = Column(DateTime, default=datetime.utcnow)
+    last_action = Column(String)
 
-    # Relationships
-    users = relationship("User", back_populates="clinic")
-    dashboard_data = relationship("DashboardData", back_populates="clinic", uselist=False)
+    # CCTV specific fields
+    cctv_ip = Column(String, index=True)
+    cctv_port = Column(Integer)
+    cctv_username = Column(String)
+    cctv_password = Column(String)
+    stream_url = Column(String)
+
+    # Foreign key to link room to user
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    # Relationship to the User
+    user = relationship("User", back_populates="rooms")
 
 
 class DashboardData(Base):
@@ -240,9 +264,25 @@ class DashboardData(Base):
     total_rooms = Column(Integer, default=0)
     user_guide_access = Column(Boolean, default=True)
 
-    clinic_id = Column(Integer, ForeignKey("clinics.id"))
-    clinic = relationship("Clinic", back_populates="dashboard_data")
+    # Foreign key to link dashboard data to user
+    user_id = Column(Integer, ForeignKey("users.id"))
 
+    # Relationship to User
+    user = relationship("User", back_populates="dashboard_data")
+
+
+class Subscription(Base):
+    __tablename__ = 'subscriptions'
+
+    id = Column(Integer, primary_key=True, index=True)
+    plan = Column(String, index=True)
+    rooms = Column(String, index=True)
+    price = Column(String, index=True)  # Store as string (e.g. "$100/month")
+    user_id = Column(Integer, ForeignKey('users.id'))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    # Relationship to User
+    user = relationship('User', back_populates='subscription')
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -472,16 +512,93 @@ class AppointmentRequest(BaseModel):
     email: EmailStr
 
 
+
+class RoomRequest(BaseModel):
+    number: str
+    floor: str
+    building: str
+    status: str
+    cctv_ip: str
+    cctv_port: int
+    cctv_username: str
+    cctv_password: str
+    stream_url: str
+
+    class Config:
+        orm_mode = True
+
+# Pydantic model for Dashboard
 class DashboardResponse(BaseModel):
     total_falls: int
     total_rooms: int
     user_guide_access: str
 
-class ClinicResponse(BaseModel):
-    clinic_name: str
-    location: str
+    class Config:
+        orm_mode = True
+
+
+# Model for the response of the falls over time
+class FallsOverTimeResponse(BaseModel):
+    time: str
+    falls: int
+
+    class Config:
+        orm_mode = True
+
+# Model for active patients (rooms)
+class ActivePatientsData(BaseModel):
+    room_number: str
+    floor: str
+    status: str
+    cctv_ip: str  # Add other relevant fields related to the room as necessary
+    total_beds: int  # Total beds in each room
+
+    class Config:
+        orm_mode = True
+
+
+class SubscriptionCreate(BaseModel):
+    plan: str
+    rooms: str
+    price: str
+    payment_method: str
+
+    class Config:
+        orm_mode = True
+
+class SubscriptionResponse(BaseModel):
+    subscription_status: str
+    message: Optional[str] = None
+
+
+# Model for Subscription Status Response
+class SubscriptionStatusResponse(BaseModel):
     subscription_status: str
 
+    class Config:
+        orm_mode = True
+
+# Model for Subscription Details Response
+class SubscriptionDetailsResponse(BaseModel):
+    plan: str
+    rooms: str
+    price: str
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+class UserProfile(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    gender: str
+    clinic_name: str
+    location: str
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
 
 
 
@@ -1237,3 +1354,231 @@ async def get_dashboard_data(db: Session = Depends(get_db), user: User = Depends
     }
 
     return dashboard_data
+
+
+## Endpoint to fetch rooms
+@app.get("/api/rooms")
+async def get_rooms(db: Session = Depends(get_db)):
+    logger.info("Received request for /api/rooms")
+    try:
+        rooms = db.query(Room).all()
+        logger.info(f"Fetched {len(rooms)} rooms from the database")
+        if not rooms:
+            logger.warning("No rooms found in the database.")
+            return []  # Return an empty list instead of raising an error
+        return rooms
+    except Exception as e:
+        logger.error(f"Error fetching rooms: {e}")
+        raise HTTPException(status_code=500, detail="Error fetching rooms")
+    
+
+
+
+ #Endpoint for /api/falls-over-time
+@app.get("/api/falls-over-time")
+async def get_falls_over_time(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    """
+    Fetch total falls over time from the DashboardData table for the authenticated user.
+    """
+    # Retrieve the user's dashboard data (total_falls column)
+    dashboard_data = db.query(DashboardData).filter(DashboardData.user_id == user.id).first()
+
+    if not dashboard_data:
+        logger.warning(f"No dashboard data found for user {user.id}. Returning default values.")
+        return {"time": "No Data", "falls": 0}  # Return default value if no data is found
+
+    logger.info(f"Fetched total falls: {dashboard_data.total_falls} for user {user.id}")
+    return {"time": "Current", "falls": dashboard_data.total_falls}
+
+
+@app.get("/api/active-patients")
+async def get_active_patients(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    """
+    Fetch all rooms (active patients) for the authenticated user from the Room table
+    and calculate the total number of beds across all rooms.
+    """
+    # Retrieve rooms for the authenticated user
+    rooms = db.query(Room).filter(Room.user_id == user.id).all()
+
+    if not rooms:
+        logger.warning(f"No rooms found for user {user.id}. Returning an empty list.")
+        return []
+
+    logger.info(f"Fetched {len(rooms)} rooms for user {user.id}")
+
+    # Calculate total beds across all rooms
+    total_beds = sum(room.total_bed for room in rooms)
+
+    # Prepare response data
+    active_patients = [
+        {
+            "room_number": room.number,
+            "floor": room.floor,
+            "status": room.status,
+            "cctv_ip": room.cctv_ip,
+            "total_beds": room.total_bed  # Add the total beds for each room
+        }
+        for room in rooms
+    ]
+    
+    # Optionally, you can include total_beds in the response
+    response = {
+        "total_beds": total_beds,  # Total number of beds across all rooms
+        "rooms": active_patients
+    }
+
+    return response
+
+
+
+# Endpoint to handle the subscription process
+@app.post("/api/create-subscription")
+async def create_subscription(
+    subscription: SubscriptionCreate, db: Session = Depends(get_db)
+):
+    try:
+        # Create a payment method using Stripe
+        # Here, you would add Stripe's payment creation logic using payment_method
+        payment_method = subscription.payment_method  # Assuming payment_method is provided from frontend
+
+        # Calculate price based on the selected rooms and plan
+        price = subscription.price
+
+        # Create the subscription record in the database
+        user = db.query(User).filter(User.id == 1).first()  # Fetch user by ID, replace 1 with the authenticated user's ID
+
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        new_subscription = Subscription(
+            plan=subscription.plan,
+            rooms=subscription.rooms,
+            price=price,
+            user_id=user.id
+        )
+
+        db.add(new_subscription)
+        db.commit()
+        db.refresh(new_subscription)
+
+        # Simulate Stripe's response for active subscription
+        subscription_status = "active"
+
+        return {"subscription_status": subscription_status, "message": "Subscription successful!"}
+
+    except stripe.error.StripeError as e:
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Server error: {str(e)}")
+
+# Endpoint to get subscription details (GET request example)
+@app.get("/api/subscription")
+async def get_subscription(db: Session = Depends(get_db)):
+    try:
+        # Fetch user and subscription details
+        user = db.query(User).filter(User.id == 1).first()  # Replace 1 with the authenticated user's ID
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        subscription = db.query(Subscription).filter(Subscription.user_id == user.id).first()
+
+        if not subscription:
+            return {"message": "No active subscription found."}
+
+        # Return subscription details
+        return {
+            "plan": subscription.plan,
+            "rooms": subscription.rooms,
+            "price": subscription.price,
+            "created_at": subscription.created_at
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching subscription details: {str(e)}")
+    
+
+@app.get("/api/subscription-status")
+async def get_subscription_status(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    """
+    Check if the user is subscribed or not.
+    """
+    subscription = db.query(Subscription).filter(Subscription.user_id == user.id).first()
+    
+    if subscription:
+        return {"subscription_status": "Subscribed"}
+    else:
+        return {"subscription_status": "Unsubscribed"}
+
+@app.get("/api/subscription-details")
+async def get_subscription_details(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    """
+    Fetch the subscription details for the authenticated user.
+    """
+    subscription = db.query(Subscription).filter(Subscription.user_id == user.id).first()
+
+    if not subscription:
+        # Return default values for unsubscribed users
+        return {
+            "plan": "Unsubscribed",
+            "rooms": "Unsubscribed",
+            "price": "Unsubscribed",
+            "created_at": "Unsubscribed"
+        }
+
+    return {
+        "plan": subscription.plan,
+        "rooms": subscription.rooms,
+        "price": subscription.price,
+        "created_at": subscription.created_at
+    }
+
+
+# Endpoint to get the user's profile
+@app.get("/api/profile", response_model=UserProfile)
+async def get_profile(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    """
+    Fetch the profile details of the authenticated user.
+    """
+    user_data = db.query(User).filter(User.id == user.id).first()
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return UserProfile(
+        first_name=user_data.first_name,
+        last_name=user_data.last_name,
+        email=user_data.email,
+        gender=user_data.gender,
+        clinic_name=user_data.clinic_name,
+        location=user_data.location,
+        created_at=user_data.created_at,
+    )
+
+
+@app.post("/api/profile", response_model=UserProfile)
+async def update_profile(profile_data: UserProfile, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    """
+    Update the profile details of the authenticated user.
+    """
+    user_data = db.query(User).filter(User.id == user.id).first()
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user_data.first_name = profile_data.first_name
+    user_data.last_name = profile_data.last_name
+    user_data.email = profile_data.email
+    user_data.gender = profile_data.gender
+    user_data.clinic_name = profile_data.clinic_name
+    user_data.location = profile_data.location
+
+    db.commit()
+    db.refresh(user_data)
+
+    return UserProfile(
+        first_name=user_data.first_name,
+        last_name=user_data.last_name,
+        email=user_data.email,
+        gender=user_data.gender,
+        clinic_name=user_data.clinic_name,
+        location=user_data.location,
+        created_at=user_data.created_at,
+    )

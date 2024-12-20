@@ -1,0 +1,126 @@
+body {
+  background-color: #e5e4e4;
+  height: 100vh;
+}
+
+.profile-page {
+  width: 100%;
+  max-width: 600px;  /* Reduced width from 600px to 500px */
+  margin: 20px auto;  /* Reduced margin to bring the container closer to the center */
+  padding: 25px;  /* Reduced padding for a more compact look */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+  margin-top: 80px;
+}
+
+.profile-page h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  color: #333;
+}
+
+.profile-detail {
+  margin-bottom: 25px;
+}
+
+.profile-detail label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-detail p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #333;
+}
+
+.profile-detail input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-detail input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 0 5px; /* Added margin to space out the buttons */
+}
+
+button:disabled {
+  background-color: #b4b4b4;
+  cursor: not-allowed;
+}
+
+button.save-btn:disabled {
+  background-color: #b4b4b4;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+  background-color: #388e3c;
+  transform: translateY(1px);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: space-evenly; /* Ensures buttons are spaced evenly */
+  margin-top: 30px;
+  gap: 10px; /* Additional space between buttons */
+  margin-top: 30px;
+}
+
+button.save-btn {
+  background-color: #007BFF;
+}
+
+button.cancel-btn {
+  background-color: #f44336;
+}
+
+button.save-btn:hover {
+  background-color: #0056b3;
+}
+
+button.cancel-btn:hover {
+  background-color: #e53935;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

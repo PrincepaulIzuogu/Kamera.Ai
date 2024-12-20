@@ -1,0 +1,121 @@
+/* Subscription Page Styles */
+.subscription-page {
+    max-width: 1000px;
+    margin: 50px auto;
+    margin-top: 120px;
+    padding: 20px;
+    background-color: #b5b8b8;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 200px;
+    min-height: 60vh;
+  }
+  
+  .subscription-page h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif; /* Apply custom font globally */
+}
+  
+  .subscription-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .subscription-left {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .subscription-left h3 {
+    margin-bottom: 10px;
+  }
+  
+  .subscription-left .room-selection,
+  .subscription-left .plan-selection {
+    margin-bottom: 20px;
+  }
+  
+  .subscription-left label {
+    font-size: 16px;
+    margin: 10px 0;
+    display: block;
+  }
+  
+  .subscription-left select,
+  .subscription-left input[type="radio"] {
+    margin-top: 5px;
+  }
+  
+  .subscription-left .subscription-details {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  .subscription-left .subscription-details p {
+    margin: 5px 0;
+  }
+  
+  .payment-form {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .payment-form h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .payment-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 50px;
+  }
+  
+  .payment-form button:disabled {
+    background-color: #b4b4b4;
+    cursor: not-allowed;
+  }
+  
+  .payment-form button:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+  
+  .subscription-page .card-element {
+    margin-bottom: 20px;
+  }
+  
+  .subscription-page .error-message,
+  .subscription-page .success-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .subscription-container {
+      flex-direction: column;
+    }
+  
+    .subscription-left,
+    .payment-form {
+      flex: 1;
+      margin-bottom: 20px;
+    }
+  }
+  
