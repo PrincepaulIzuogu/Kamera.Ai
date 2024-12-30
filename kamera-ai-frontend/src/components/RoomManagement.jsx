@@ -22,7 +22,7 @@ const RoomManagement = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/rooms");
+        const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/rooms");
         const data = await response.json();
         setRooms(data);
       } catch (error) {
@@ -36,7 +36,7 @@ const RoomManagement = () => {
   // Handle room creation
   const handleRoomSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/rooms", {
+      const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/rooms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
