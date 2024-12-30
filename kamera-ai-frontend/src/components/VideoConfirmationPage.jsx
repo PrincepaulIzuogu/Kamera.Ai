@@ -47,7 +47,7 @@ const VideoConfirmationPage = () => {
             formData.forEach((value, key) => console.log(`${key}:`, value));
 
             // Send video and test_id to the backend
-            const response = await fetch('http://localhost:5001/upload-video', {
+            const response = await fetch('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/upload-video', {
                 method: 'POST',
                 body: formData,
             });
