@@ -27,7 +27,7 @@ const FallsDetails = () => {
   useEffect(() => {
     const fetchFallData = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/falls-over-time");
+        const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/falls-over-time");
         const data = await response.json();
         if (data.time && data.falls) {
           setFallData([data]); // Assuming you get an array of data with "time" and "falls"
