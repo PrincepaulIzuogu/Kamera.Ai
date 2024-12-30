@@ -22,7 +22,7 @@ const SubscriptionDetails = () => {
           "Content-Type": "application/json",
         };
 
-        const response = await fetch("http://localhost:5001/api/subscription-details", {
+        const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/subscription-details", {
           headers,
         });
 
