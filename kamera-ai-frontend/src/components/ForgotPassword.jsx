@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     setErrorMessage('');
     try {
       // API call to initiate password reset
-      const response = await axios.post('http://127.0.0.1:5001/forgot-password', formData);
+      const response = await axios.post('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/forgot-password', formData);
 
       if (response.data.message) {
         navigate('/set-new-password'); // Redirect to token verification page
