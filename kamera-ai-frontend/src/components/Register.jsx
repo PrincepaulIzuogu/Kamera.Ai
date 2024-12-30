@@ -94,7 +94,7 @@ const Register = () => {
     setErrorMessage('');
     try {
       // API call to backend register endpoint
-      const response = await axios.post('http://127.0.0.1:5001/register', {
+      const response = await axios.post('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/register', {
         initial: form.initial,
         first_name: form.firstName, // Ensure this matches the Pydantic model
         last_name: form.lastName,
