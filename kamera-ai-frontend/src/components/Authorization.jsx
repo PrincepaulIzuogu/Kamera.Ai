@@ -34,7 +34,7 @@ const Authorization = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await axios.post('http://127.0.0.1:5001/confirm-token', {
+      const response = await axios.post('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/confirm-token', {
         token_data: code.trim(),
       });
 
