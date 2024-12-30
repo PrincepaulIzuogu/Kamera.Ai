@@ -22,7 +22,7 @@ COPY ./kamera-ai-backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the backend code into the container
-COPY ./kamera-ai-backend/ .
+COPY ./kamera-ai-backend .
 
 # Expose the port that the app runs on
 EXPOSE 5001
