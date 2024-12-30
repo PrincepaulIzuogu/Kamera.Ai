@@ -55,7 +55,7 @@ const SetNewPassword = () => {
 
     try {
       // API call to reset password
-      const response = await axios.post('http://127.0.0.1:5001/set-new-password', {
+      const response = await axios.post('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/set-new-password', {
         token: formData.token.trim(),
         password: formData.password,
         confirm_password: formData.confirmPassword,
