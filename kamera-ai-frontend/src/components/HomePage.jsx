@@ -47,7 +47,7 @@ const HomePage = () => {
     setIsScheduling(true);
 
     try {
-      const response = await fetch('http://localhost:5001/schedule-appointment', {
+      const response = await fetch('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/schedule-appointment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
