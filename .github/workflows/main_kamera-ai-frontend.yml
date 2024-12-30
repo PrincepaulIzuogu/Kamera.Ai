@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: kameraaiacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_82ff958d73dd4b01b1c19c4908a92b56 }}/frontend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./kamera-ai-frontend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
