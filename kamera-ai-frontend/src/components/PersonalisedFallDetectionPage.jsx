@@ -17,7 +17,7 @@ const PersonalisedFallDetection = () => {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:5001/delete-data/${testId}`, {
+            const response = await fetch(`https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/delete-data/${testId}`, {
                 method: "DELETE",
             });
             if (response.ok) {
@@ -34,7 +34,7 @@ const PersonalisedFallDetection = () => {
 
     useEffect(() => {
         const setupWebSocket = () => {
-            const wsUrl = `ws://localhost:5001/ws/personalised-fall-model/${testId}`;
+            const wsUrl = `wss://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/ws/personalised-fall-model/${testId}`;
             console.log(`Connecting to WebSocket at ${wsUrl}`);
             socketRef.current = new WebSocket(wsUrl);
 
