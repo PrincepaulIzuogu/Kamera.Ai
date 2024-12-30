@@ -29,7 +29,7 @@ const FallDetectionPage = () => {
       console.log('Submitting form data:', formData);
 
       // Send the registration data to the backend
-      const response = await axios.post('http://127.0.0.1:5001/fall-detection-test', formData, {
+      const response = await axios.post('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/fall-detection-test', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
