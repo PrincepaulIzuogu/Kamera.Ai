@@ -27,7 +27,7 @@ const RegisterNewRoom = () => {
   useEffect(() => {
     const checkSubscriptionStatus = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/subscription-status", {
+        const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/subscription-status", {
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
             "Content-Type": "application/json",
