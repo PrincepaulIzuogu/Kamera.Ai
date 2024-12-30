@@ -65,7 +65,7 @@ const FallVideoConfirmation = () => {
             console.log("FormData contents:");
             formData.forEach((value, key) => console.log(`${key}:`, value));
 
-            const response = await fetch("http://localhost:5001/upload-fall-video", {
+            const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/upload-fall-video", {
                 method: "POST",
                 body: formData,
             });
