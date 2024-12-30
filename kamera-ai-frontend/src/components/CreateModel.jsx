@@ -25,7 +25,7 @@ const CreateModel = () => {
             console.log("Request body being sent to backend:", requestBody);
 
             // Make the API call
-            const response = await fetch("http://localhost:5001/create-model", {
+            const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/create-model", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(requestBody),
