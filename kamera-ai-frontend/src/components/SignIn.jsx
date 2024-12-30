@@ -55,7 +55,7 @@ const SignIn = ({ onSignIn }) => {
     setErrorMessage('');
   
     try {
-      const response = await axios.post('http://127.0.0.1:5001/sign-in', {
+      const response = await axios.post('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/sign-in', {
         email: form.email,
         password: form.password
       });
