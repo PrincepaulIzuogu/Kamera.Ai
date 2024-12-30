@@ -28,7 +28,7 @@ const Profile = () => {
           "Content-Type": "application/json",
         };
 
-        const response = await fetch("http://localhost:5001/api/profile", {
+        const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/profile", {
           headers,
         });
 
@@ -66,7 +66,7 @@ const Profile = () => {
         "Content-Type": "application/json",
       };
 
-      const response = await fetch("http://localhost:5001/api/profile", {
+      const response = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/profile", {
         method: "POST",
         headers,
         body: JSON.stringify(formData),
