@@ -43,7 +43,7 @@ const Subscription = () => {
 
     // Call the backend to create the subscription
     try {
-      const response = await fetch('http://localhost:5001/api/create-subscription', {
+      const response = await fetch('https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/create-subscription', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
