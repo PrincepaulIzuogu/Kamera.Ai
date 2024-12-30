@@ -48,7 +48,7 @@ const Dashboard = () => {
         };
 
         // Fetch dashboard data
-        const dashboardResponse = await fetch("http://localhost:5001/api/dashboard", { headers });
+        const dashboardResponse = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/dashboard", { headers });
         if (!dashboardResponse.ok) throw new Error(await dashboardResponse.text());
         const dashboard = await dashboardResponse.json();
 
@@ -66,12 +66,12 @@ const Dashboard = () => {
         }));
 
         // Fetch Falls Over Time data
-        const fallsResponse = await fetch("http://localhost:5001/api/falls-over-time", { headers });
+        const fallsResponse = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/falls-over-time", { headers });
         const fallGraphData = (await fallsResponse.json()) || [];
         setFallData(fallGraphData);
 
         // Fetch Active Patients data
-        const activeResponse = await fetch("http://localhost:5001/api/active-patients", { headers });
+        const activeResponse = await fetch("https://kamera-ai-backend-aacmbegmdjcxfhdq.germanywestcentral-01.azurewebsites.net/api/active-patients", { headers });
         const activeGraphData = (await activeResponse.json()) || [];
         setActivePatientsData(
           Array.isArray(activeGraphData) && activeGraphData.length > 0
