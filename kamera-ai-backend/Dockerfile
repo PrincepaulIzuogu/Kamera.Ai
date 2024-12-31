@@ -25,8 +25,6 @@ COPY ./kamera-ai-backend/ .
 # Verify the contents of the /app/src directory for debugging
 RUN ls /app/src
 
-# Set the working directory to where the src folder exists (if needed)
-WORKDIR /app/kamera-ai-backend
 
 # Expose the port that the app runs on
 EXPOSE 5001
