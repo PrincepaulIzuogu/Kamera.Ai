@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy container app to Azure Web App - kamera-ai-backend
 
 on:
@@ -27,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: kameraaiacr.azurecr.io/kameraaiacr/backend:latest  # Tag it as 'latest'
+        tags: kameraaiacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ea290a1b2f51409582ab03ad15babb47 }}/backend:${{ github.sha }}
         file: ./kamera-ai-backend/Dockerfile
 
   deploy:
@@ -45,4 +48,4 @@ jobs:
         app-name: 'kamera-ai-backend'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_62153348e09144738d6123d80b055a68 }}
-        images: 'kameraaiacr.azurecr.io/kameraaiacr/backend:latest'  # Use 'latest' for deployment
+        images: 'kameraaiacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ea290a1b2f51409582ab03ad15babb47 }}/backend:${{ github.sha }}'
