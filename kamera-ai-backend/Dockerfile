@@ -30,4 +30,4 @@ RUN ls /app/src
 EXPOSE 5001
 
 # Command to run the backend server using Uvicorn (adjusted path)
-CMD ["uvicorn", "kamera-ai-backend.src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
+CMD ["uvicorn", "src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
