@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy the requirements.txt file into the container
-COPY . .
+COPY ./kamera-ai-backend/requirements.txt .
+
 
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
