@@ -18,15 +18,17 @@ WORKDIR /app
 # Copy the requirements.txt file into the container
 COPY ./kamera-ai-backend/requirements.txt .
 
-
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the backend code into the container
 COPY ./kamera-ai-backend/ .
 
+# Set the working directory to where fall_detection.py is located
+WORKDIR /app/src
+
 # Expose the port that the app runs on
 EXPOSE 5001
 
 # Command to run the backend server using Uvicorn
-CMD ["uvicorn", "src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
+CMD ["uvicorn", "fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
