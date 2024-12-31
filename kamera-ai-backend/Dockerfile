@@ -1,5 +1,3 @@
-# kamera-ai-backend/Dockerfile
-
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
@@ -15,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory
 WORKDIR /app
 
-# Copy the requirements.txt file into the container
+# Copy the requirements.txt file from the backend folder into the container
 COPY ./kamera-ai-backend/requirements.txt .
 
 # Install the dependencies
@@ -24,11 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the backend code into the container
 COPY ./kamera-ai-backend/ .
 
-# Set the working directory to where fall_detection.py is located
-WORKDIR /app/src
-
 # Expose the port that the app runs on
 EXPOSE 5001
 
 # Command to run the backend server using Uvicorn
-CMD ["uvicorn", "fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
+CMD ["uvicorn", "src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
