@@ -22,10 +22,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the backend code into the container
 COPY ./kamera-ai-backend/ .
 
+# Verify the contents of the /app/src directory for debugging
 RUN ls /app/src
+
+# Set the working directory to where the src folder exists (if needed)
+WORKDIR /app/kamera-ai-backend
 
 # Expose the port that the app runs on
 EXPOSE 5001
 
-# Command to run the backend server using Uvicorn
-CMD ["uvicorn", "src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
+# Command to run the backend server using Uvicorn (adjusted path)
+CMD ["uvicorn", "kamera-ai-backend.src.fall_detection:app", "--host", "0.0.0.0", "--port", "5001", "--reload"]
