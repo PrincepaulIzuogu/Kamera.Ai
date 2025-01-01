@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:13  # Use the official PostgreSQL image
+  kameraai-postgres.postgres.database.azure.com:
+    image: kameraaiacr.azurecr.io/postgres:16.4  # Use the official PostgreSQL image
     environment:
       POSTGRES_USER: ${PGUSER}  # Fetch from the environment or .env
       POSTGRES_PASSWORD: ${PGPASSWORD}
@@ -14,14 +14,14 @@ services:
     restart: always
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: kameraaiacr.azurecr.io/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8080:80"  # Expose pgAdmin on port 8080
     depends_on:
-      - postgres
+      - kameraai-postgres.postgres.database.azure.com
     restart: always
 
   wait-for-it:
@@ -29,23 +29,19 @@ services:
     command: /bin/sh -c "apk add --no-cache bash curl && while ! curl -s postgres:5432; do sleep 1; done; echo 'PostgreSQL is ready!'"
 
   backend:
-    build:
-      context: ./kamera-ai-backend
-      dockerfile: Dockerfile
+    image: kameraaiacr.azurecr.io/kameraaiacr/frontend:a1f0b97c5c5092b0f29b2072c7961805413da261
     ports:
       - "5001:5001"
     environment:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=${DATABASE_URL}  # Fetch from the environment or .env
     depends_on:
-      - postgres
+      - kameraai-postgres.postgres.database.azure.com
       - wait-for-it
     restart: always
 
   frontend:
-    build:
-      context: ./kamera-ai-frontend
-      dockerfile: Dockerfile
+    image: kameraaiacr.azurecr.io/kameraaiacr/frontend:a1f0b97c5c5092b0f29b2072c7961805413da261
     ports:
       - "3000:3000"
     depends_on:
