@@ -1,5 +1,16 @@
-# Install Azure CLI
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+# Use a base image with Python 3.8 for dev container setup
+FROM mcr.microsoft.com/vscode/devcontainers/python:0-3.8
 
-# Authenticate with Azure CLI
-RUN az acr login --name kameraaiacr
+# Install dependencies (Azure CLI and Docker)
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+RUN apt-get update && apt-get install -y docker.io jq
+
+# Authenticate with Azure ACR using GitHub secrets
+RUN echo "$ACR_PASSWORD" | az acr login --name $ACR_USERNAME --username $ACR_USERNAME --password-stdin
+
+# Set up the working directory
+WORKDIR /workspace
+
+# Ensure Docker Compose is installed
+RUN curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose \
+  && chmod +x /usr/local/bin/docker-compose
