@@ -1,9 +1,16 @@
 # Use a base image with Python 3.8 for dev container setup
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-3.8
 
-# Install dependencies (Azure CLI and Docker)
+# Install dependencies (Azure CLI, Docker, and jq)
+RUN apt-get update && apt-get install -y \
+    curl \
+    jq \
+    docker.io \
+    lsb-release \
+    sudo
+
+# Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-RUN apt-get update && apt-get install -y docker.io jq
 
 # Authenticate with Azure ACR using GitHub secrets
 RUN echo "$ACR_PASSWORD" | az acr login --name $ACR_USERNAME --username $ACR_USERNAME --password-stdin
