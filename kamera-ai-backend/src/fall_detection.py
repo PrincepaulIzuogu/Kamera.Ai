@@ -50,7 +50,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 # Set your Stripe API secret key
-stripe.api_key = "sk_test_51PTo6n2MU8gPiBkp1zInYRfltX26e6CQ6JQZo0H2tJ47LWh2R7Dmw0phfFX9fBWU9VC3TBhgQbTZcezZVL2tcNYj001sdf3uar"
+stripe.api_key = os.getenv('STRIPE')
 
 
 
