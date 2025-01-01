@@ -26,6 +26,6 @@
       "ACR_PASSWORD": "${ACR_PASSWORD}"
     }
   },
-  "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io && curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker login ${ACR_LOGIN_SERVER} -u ${ACR_USERNAME} -p ${ACR_PASSWORD} && docker-compose up --build",
+  "postCreateCommand": "export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y bash curl jq docker.io && curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker login ${ACR_LOGIN_SERVER} -u ${ACR_USERNAME} -p ${ACR_PASSWORD} && docker-compose up --build",
   "remoteUser": "root"
 }
