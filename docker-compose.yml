@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:13  # Use the official PostgreSQL image
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: THD111
-      POSTGRES_DB: kamera-db  # Database name
+      POSTGRES_USER: ${PGUSER}  # Fetch from the environment or .env
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Persist the database data
     ports:
@@ -16,8 +16,8 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
     environment:
-      PGADMIN_DEFAULT_EMAIL: princepaul.izuogu@stud.th-deg.de 
-      PGADMIN_DEFAULT_PASSWORD: THD111
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8080:80"  # Expose pgAdmin on port 8080
     depends_on:
@@ -36,7 +36,7 @@ services:
       - "5001:5001"
     environment:
       - PYTHONUNBUFFERED=1
-      - DATABASE_URL=postgresql://postgres:THD111@postgres:5432/kamera-db  # Point to the PostgreSQL container
+      - DATABASE_URL=${DATABASE_URL}  # Fetch from the environment or .env
     depends_on:
       - postgres
       - wait-for-it
