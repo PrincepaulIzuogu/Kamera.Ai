@@ -8,10 +8,12 @@
     "ms-python.python",
     "ms-azuretools.vscode-docker"
   ],
-  "forwardPorts": [],
+  "forwardPorts": [3000, 5001, 8080, 5432],
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
+  "postCreateCommand": "apt-get update && apt-get install -y bash curl jq docker.io && curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker-compose up --build",
+  "remoteUser": "root",
   "build": {
     "args": {
       "PGUSER": "${PGUSER}",
@@ -21,23 +23,10 @@
       "PGADMIN_DEFAULT_PASSWORD": "${PGADMIN_DEFAULT_PASSWORD}",
       "DATABASE_URL": "${DATABASE_URL}",
       "STRIPE": "${STRIPE}",
-      "ACR_LOGIN_SERVER": "${ACR_LOGIN_SERVER}",
       "ACR_USERNAME": "${ACR_USERNAME}",
       "ACR_PASSWORD": "${ACR_PASSWORD}"
     }
-  },
-  "postCreateCommand": "export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y bash curl jq docker.io && curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && docker login ${ACR_LOGIN_SERVER} -u ${ACR_USERNAME} -p ${ACR_PASSWORD} && docker-compose up --build",
-  "env": {
-    "PGUSER": "${PGUSER}",
-    "PGPASSWORD": "${PGPASSWORD}",
-    "PGDATABASE": "${PGDATABASE}",
-    "PGADMIN_DEFAULT_EMAIL": "${PGADMIN_DEFAULT_EMAIL}",
-    "PGADMIN_DEFAULT_PASSWORD": "${PGADMIN_DEFAULT_PASSWORD}",
-    "DATABASE_URL": "${DATABASE_URL}",
-    "STRIPE": "${STRIPE}",
-    "ACR_LOGIN_SERVER": "${ACR_LOGIN_SERVER}",
-    "ACR_USERNAME": "${ACR_USERNAME}",
-    "ACR_PASSWORD": "${ACR_PASSWORD}"
-  },
-  "remoteUser": "root"
+  }
 }
+
+
