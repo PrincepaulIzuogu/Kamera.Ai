@@ -118,13 +118,13 @@ const HomePage = () => {
           <div className="team-member">
             <img src={require('../images/image11.jpeg')} alt="Noura Eltahawi - Frontend Developer" />
             <h3>Noura Eltahawi</h3>
-            <p>Frontend Developer & Business Lead</p>
+            <p>Project Manager & Business Lead</p>
             
           </div>
           <div className="team-member">
             <img src={require('../images/image12.jpg')} alt="Princepaul Izuogu - Backend Developer" />
             <h3>Princepaul Izuogu</h3>
-            <p>Backend Developer & Product Manager</p>
+            <p>Fullstack Developer & AI Engineer</p>
             
           </div>
         </div>
